@@ -2,12 +2,15 @@ import { useState } from 'react'
 import Slider from 'react-slick'
 import fate from '../images/fate.jpg'
 import gintama from '../images/gintama.jpg'
+import conan from '../images/conan.jpg'
+import katashi from '../images/katashi.jpg'
+
 import Image from 'next/image'
 
 const ImgSlider: React.FC = () => {
     const [imageIndex, setImageIndex] = useState(0)
 
-    const img = [fate, gintama, fate, gintama]
+    const img = [fate, gintama, conan, katashi]
 
     const settings = {
         infinite: true,
