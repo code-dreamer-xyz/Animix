@@ -1,0 +1,21 @@
+.slick-slider {
+    width: 100%;
+}
+
+.slick-dots li {
+    margin: 0 10px;
+}
+
+.slick-dots li.slick-active button::before {
+    color: white !important;
+    border: none !important;
+    opacity: 1 !important;
+}
+
+.slick-dots li button::before {
+    font-size: 30px !important;
+    color: transparent !important;
+    border: 2px solid #fff !important;
+    border-radius: 50%;
+    opacity: 1;
+}

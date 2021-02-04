@@ -9,13 +9,14 @@ module.exports = {
     theme: {
         extend: {
             fontFamily: {
-                primary: ['Poppins', ...defaultTheme.fontFamily.sans],
-                main: ['Open Sans', ...defaultTheme.fontFamily.sans],
+                poppins: ['Poppins', ...defaultTheme.fontFamily.sans],
+                sans: ['Open Sans', ...defaultTheme.fontFamily.sans],
             },
 
             colors: {
                 primary: '#04BB73',
                 theme: '#031326',
+                overlay: 'rgba(0,0,0,.3)',
             },
         },
     },

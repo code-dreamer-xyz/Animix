@@ -1,4 +1,5 @@
 import '../styles/globals.css'
+import '../styles/slider.css'
 import 'tailwindcss/tailwind.css'
 import { AppProps } from 'next/app'
 import '@fontsource/open-sans'

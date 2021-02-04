@@ -29,6 +29,7 @@ const ImgSlider: React.FC = () => {
         <Slider {...settings}>
             {img.map((img, i) => (
                 <Image
+                    key={`img-${i}`}
                     src={img}
                     alt="anime"
                     className={`transition-transform duration-300 ${
