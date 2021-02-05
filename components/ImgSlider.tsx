@@ -20,6 +20,7 @@ const ImgSlider: React.FC = () => {
         centerMode: true,
         centerPadding: 0,
         dots: true,
+        arrows: false,
         beforeChange: (current: number, next: number) => setImageIndex(next),
     }
 
