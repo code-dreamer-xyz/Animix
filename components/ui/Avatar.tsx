@@ -1,12 +1,15 @@
-import Image from 'next/image'
 import avatarHolder from '../../images/avatarHolder.jpg'
 
-const Avatar = () => {
+interface Props {
+    img: string
+}
+
+const Avatar: React.FC<Props> = ({ img }) => {
     return (
         <div>
-            <Image
+            <img
                 className="rounded-full w-16 h-16 bg-primary"
-                src={avatarHolder}
+                src={img ? img : avatarHolder}
                 alt="avatar"
                 width={64}
                 height={64}

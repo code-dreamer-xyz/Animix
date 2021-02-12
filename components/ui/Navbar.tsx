@@ -6,12 +6,14 @@ import Avatar from './Avatar'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons'
 
+import { useContext } from 'react'
+import { UserContext } from '../../lib/context'
 import { useState } from 'react'
 import { auth } from '../../lib/firebase'
 
 const Navbar: React.FC = () => {
     const [open, setOpen] = useState(false)
-    const user = null
+    const { user, userProfile } = useContext(UserContext)
 
     return (
         <header className="absolute z-20 top-0 w-full  py-4">
@@ -50,11 +52,14 @@ const Navbar: React.FC = () => {
                     </Button>
                 )}
                 {user && (
-                    <div className="relative" onClick={() => setOpen(!open)}>
+                    <div
+                        className="relative cursor-pointer"
+                        onClick={() => setOpen(!open)}
+                    >
                         <div className="flex space-x-6 items-center">
-                            <Avatar />
+                            <Avatar img={userProfile?.photoURL} />
                             <p className="text-white font-poppins font-bold">
-                                Mikasa-chan
+                                {userProfile?.userName}
                             </p>
                             <FontAwesomeIcon
                                 icon={open ? faCaretUp : faCaretDown}

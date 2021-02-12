@@ -9,13 +9,20 @@ import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
 import Layout from '../components/Layout'
 import { Toaster } from 'react-hot-toast'
+import { UserContext } from '../lib/context'
+
+import { useUserData } from '../lib/hooks'
 
 function MyApp({ Component, pageProps }: AppProps) {
+    const userData = useUserData()
+
     return (
-        <Layout>
-            <Component {...pageProps} />
-            <Toaster />
-        </Layout>
+        <UserContext.Provider value={userData}>
+            <Layout>
+                <Component {...pageProps} />
+                <Toaster />
+            </Layout>
+        </UserContext.Provider>
     )
 }
 
