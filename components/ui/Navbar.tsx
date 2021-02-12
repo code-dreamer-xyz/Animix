@@ -10,10 +10,16 @@ import { useContext } from 'react'
 import { UserContext } from '../../lib/context'
 import { useState } from 'react'
 import { auth } from '../../lib/firebase'
+import toast from 'react-hot-toast'
 
 const Navbar: React.FC = () => {
     const [open, setOpen] = useState(false)
     const { user, userProfile } = useContext(UserContext)
+
+    const signOut = () => {
+        auth.signOut()
+        toast.success('signed out')
+    }
 
     return (
         <header className="absolute z-20 top-0 w-full  py-4">
@@ -73,9 +79,7 @@ const Navbar: React.FC = () => {
                             }`}
                         >
                             <button>Dashbord</button>
-                            <button onClick={() => auth.signOut()}>
-                                Log Out
-                            </button>
+                            <button onClick={signOut}>Log Out</button>
                         </div>
                     </div>
                 )}

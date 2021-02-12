@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
+import toast from 'react-hot-toast'
 import { auth, firestore } from './firebase'
 
 export function useUserData() {
@@ -10,6 +11,7 @@ export function useUserData() {
         let unsubscribe
 
         if (user) {
+            toast.success('login success')
             const userRef = firestore.collection('users').doc(user.uid)
             userRef.get().then((snapshot) => {
                 if (snapshot.exists) {
