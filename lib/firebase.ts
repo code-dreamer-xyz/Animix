@@ -22,3 +22,11 @@ export const googleAuthProvider = new firebase.auth.GoogleAuthProvider()
 export const firestore = firebase.firestore()
 
 export const storage = firebase.storage()
+
+export const commentToJSON = (doc) => {
+    const data = doc.data()
+    return {
+        ...data,
+        createdAt: data?.createdAt.toMillis() || 0,
+    }
+}

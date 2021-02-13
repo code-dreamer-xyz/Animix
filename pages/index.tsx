@@ -1,4 +1,5 @@
 // import ImgSlider from '../components/ImgSlider'
+
 import Button from '../components/ui/Button'
 
 const Home: React.FC = () => {
