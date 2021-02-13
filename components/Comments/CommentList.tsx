@@ -9,8 +9,9 @@ const CommentList = ({ comments }) => {
                 Comments
             </h3>
             <AddComment />
-            <Comment />
-            <Comment />
+            {comments.map((comment) => (
+                <Comment key={comment.user_id} comment={comment} />
+            ))}
         </div>
     )
 }
