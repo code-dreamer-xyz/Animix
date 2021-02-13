@@ -1,11 +1,10 @@
-import ImgSlider from '../components/ImgSlider'
+// import ImgSlider from '../components/ImgSlider'
 import Button from '../components/ui/Button'
-import bg from '../images/bg.jpg'
 
 const Home: React.FC = () => {
     return (
         <section
-            style={{ backgroundImage: `url(${bg})` }}
+            style={{ backgroundImage: `url("/bg.jpg")` }}
             className="relative overflow-x-hidden bg-cover  min-h-screen"
         >
             <div className="absolute  min-h-screen w-full top-0 left-0 bg-overlay 2xl:px-0 px-4">
@@ -28,7 +27,7 @@ const Home: React.FC = () => {
                     2xl:top-2/4 
                     2xl:transform 2xl:-translate-y-1/2 2xl:-right-12"
                     >
-                        <ImgSlider />
+                        {/* <ImgSlider /> */}
                     </div>
                 </div>
             </div>

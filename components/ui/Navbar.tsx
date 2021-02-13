@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import logo from '../../images/logo.png'
+
 import Link from 'next/link'
 import Button from './Button'
 import Avatar from './Avatar'
@@ -25,7 +25,7 @@ const Navbar: React.FC = () => {
         <header className="absolute z-20 top-0 w-full  py-4">
             <nav className="max-w-screen-2xl mx-auto flex justify-between items-center">
                 <div>
-                    <Image src={logo} alt="logo" width={250} height={74} />
+                    <Image src="/logo.png" alt="logo" width={250} height={74} />
                 </div>
                 <ul className="flex justify-between">
                     <li className="text-xl mx-4">

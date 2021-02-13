@@ -24,12 +24,10 @@ const ImgSlider: React.FC = () => {
         beforeChange: (current: number, next: number) => setImageIndex(next),
     }
 
-    console.log(typeof imageIndex)
-
     return (
         <Slider {...settings}>
             {img.map((img, i) => (
-                <Image
+                <img
                     key={`img-${i}`}
                     src={img}
                     alt="anime"
