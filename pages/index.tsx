@@ -1,8 +1,26 @@
-// import ImgSlider from '../components/ImgSlider'
+import Link from 'next/link'
+import ImgSlider from '../components/ImgSlider'
 
 import Button from '../components/ui/Button'
+import { firestore } from '../lib/firebase'
 
-const Home: React.FC = () => {
+export const getStaticProps = async (context) => {
+    const moviesData = await firestore
+        .collection('movies')
+        .where('price', '>', 25)
+        .limit(4)
+        .get()
+
+    const movies = []
+
+    moviesData.forEach((movie) => movies.push(movie.data()))
+
+    return {
+        props: { movies },
+    }
+}
+
+const Home = ({ movies }) => {
     return (
         <section
             style={{ backgroundImage: `url("/bg.jpg")` }}
@@ -18,7 +36,11 @@ const Home: React.FC = () => {
                             <p className="md:mb-12 mb-4 font-sans text-gray-100 md:text-2xl text-xl">
                                 Collection of Top anime Movies.
                             </p>
-                            <Button>Explore</Button>
+                            <Link href="/movies">
+                                <a>
+                                    <Button>Explore</Button>
+                                </a>
+                            </Link>
                         </div>
                     </div>
                     <div
@@ -28,7 +50,7 @@ const Home: React.FC = () => {
                     2xl:top-2/4 
                     2xl:transform 2xl:-translate-y-1/2 2xl:-right-12"
                     >
-                        {/* <ImgSlider /> */}
+                        <ImgSlider movies={movies} />
                     </div>
                 </div>
             </div>

@@ -29,7 +29,6 @@ export const getStaticProps = async ({ params }) => {
         .collectionGroup('comments')
         .where('movie_id', '==', id)
         .orderBy('createdAt', 'desc')
-        .limit(1)
 
     const comments = (await commentsQuery.get()).docs.map(commentToJSON)
 
