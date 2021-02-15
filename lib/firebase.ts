@@ -30,3 +30,5 @@ export const commentToJSON = (doc) => {
         createdAt: data?.createdAt.toMillis() || 0,
     }
 }
+
+export const serverTimestamp = firebase.firestore.FieldValue.serverTimestamp

@@ -4,6 +4,12 @@ import CommentList from '../components/Comments/CommentList'
 import { GetStaticPaths } from 'next'
 import { commentToJSON, firestore } from '../lib/firebase'
 
+import {
+    useCollection,
+    useCollectionData,
+    useDocumentData,
+} from 'react-firebase-hooks/firestore'
+
 export const getStaticPaths: GetStaticPaths = async () => {
     const snapshot = await firestore.collection('movies').get()
 
@@ -25,21 +31,32 @@ export const getStaticProps = async ({ params }) => {
     const id = params.id
 
     const movieRef = await firestore.collection('movies').doc(id).get()
-    const commentsQuery = firestore
-        .collectionGroup('comments')
-        .where('movie_id', '==', id)
-        .orderBy('createdAt', 'desc')
+    // const commentsQuery = firestore
+    //     .collectionGroup('comments')
+    //     .where('movie_id', '==', id)
+    //     .orderBy('createdAt', 'desc')
 
-    const comments = (await commentsQuery.get()).docs.map(commentToJSON)
+    // const comments = (await commentsQuery.get()).docs.map(commentToJSON)
 
     const movie = movieRef.data()
 
     return {
-        props: { movie, comments },
+        props: { movie },
     }
 }
 
-const MovieDetail = ({ movie, comments }) => {
+const MovieDetail = ({ movie }) => {
+    const comments = []
+
+    const commentsQuery = firestore
+        .collectionGroup('comments')
+        .where('movie_id', '==', movie.id)
+        .orderBy('createdAt', 'desc')
+
+    const [realtimeComments] = useCollection(commentsQuery)
+
+    const commentsCol = realtimeComments?.docs.map((doc) => doc.data())
+
     return (
         <section className="min-h-screen bg-theme py-32 ">
             <div className="max-w-screen-2xl mx-auto flex flex-col min-h-screen justify-center 2xl:px-0 px-4">
@@ -74,7 +91,7 @@ const MovieDetail = ({ movie, comments }) => {
                         />
                     </div>
                 </div>
-                <CommentList comments={comments} />
+                <CommentList comments={commentsCol} movie_id={movie.id} />
             </div>
         </section>
     )
