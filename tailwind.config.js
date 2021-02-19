@@ -14,14 +14,17 @@ module.exports = {
             },
 
             colors: {
-                primary: '#04BB73',
+                primary: '#ec5990',
                 theme: '#031326',
                 overlay: 'rgba(0,0,0,.3)',
             },
         },
     },
     variants: {
-        extend: {},
+        extend: {
+            opacity: ['disabled'],
+            cursor: ['disabled'],
+        },
     },
     plugins: [],
 }

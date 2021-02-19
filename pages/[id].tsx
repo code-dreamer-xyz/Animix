@@ -4,11 +4,8 @@ import CommentList from '../components/Comments/CommentList'
 import { GetStaticPaths } from 'next'
 import { commentToJSON, firestore } from '../lib/firebase'
 
-import {
-    useCollection,
-    useCollectionData,
-    useDocumentData,
-} from 'react-firebase-hooks/firestore'
+import { useCollection } from 'react-firebase-hooks/firestore'
+import Link from 'next/link'
 
 export const getStaticPaths: GetStaticPaths = async () => {
     const snapshot = await firestore.collection('movies').get()
@@ -31,12 +28,6 @@ export const getStaticProps = async ({ params }) => {
     const id = params.id
 
     const movieRef = await firestore.collection('movies').doc(id).get()
-    // const commentsQuery = firestore
-    //     .collectionGroup('comments')
-    //     .where('movie_id', '==', id)
-    //     .orderBy('createdAt', 'desc')
-
-    // const comments = (await commentsQuery.get()).docs.map(commentToJSON)
 
     const movie = movieRef.data()
 
@@ -46,8 +37,6 @@ export const getStaticProps = async ({ params }) => {
 }
 
 const MovieDetail = ({ movie }) => {
-    const comments = []
-
     const commentsQuery = firestore
         .collectionGroup('comments')
         .where('movie_id', '==', movie.id)
@@ -55,7 +44,7 @@ const MovieDetail = ({ movie }) => {
 
     const [realtimeComments] = useCollection(commentsQuery)
 
-    const commentsCol = realtimeComments?.docs.map((doc) => doc.data())
+    const comments = realtimeComments?.docs.map((doc) => doc.data())
 
     return (
         <section className="min-h-screen bg-theme py-32 ">
@@ -77,7 +66,11 @@ const MovieDetail = ({ movie }) => {
                                 {movie.price}£
                             </span>
                         </p>
-                        <Button>Buy</Button>
+                        <Button>
+                            <Link href={`checkout/${movie.id}`}>
+                                <a>Buy</a>
+                            </Link>
+                        </Button>
                         <p className="text-lg text-gray-300 font-sans mt-2 underline">
                             Add To WhishList
                         </p>
@@ -91,7 +84,7 @@ const MovieDetail = ({ movie }) => {
                         />
                     </div>
                 </div>
-                <CommentList comments={commentsCol} movie_id={movie.id} />
+                <CommentList comments={comments} movie_id={movie.id} />
             </div>
         </section>
     )

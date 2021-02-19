@@ -12,6 +12,7 @@ export function useUserData() {
 
         if (user) {
             toast.success('login success')
+
             const userRef = firestore.collection('users').doc(user.uid)
             userRef.get().then((snapshot) => {
                 if (snapshot.exists) {
