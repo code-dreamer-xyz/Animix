@@ -1,11 +1,14 @@
 import { auth, googleAuthProvider } from '../lib/firebase'
+import toast from 'react-hot-toast'
 
 const Login = () => {
     const signInWithGoogle = async () => {
         try {
             await auth.signInWithPopup(googleAuthProvider)
+            toast.success('login success 🤩')
         } catch (error) {
             console.log(error.message)
+            toast.error('login failed 🙁')
         }
     }
 

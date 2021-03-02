@@ -18,7 +18,7 @@ const Navbar: React.FC = () => {
 
     const signOut = () => {
         auth.signOut()
-        toast.success('signed out')
+        toast.success('successfully signed out')
     }
 
     return (

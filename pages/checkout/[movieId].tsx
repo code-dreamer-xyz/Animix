@@ -1,210 +1,171 @@
-import React, { useContext } from 'react'
+import React, { useState } from 'react'
 import WithAuth from '../../components/WithAuth'
 
 import { useRouter } from 'next/router'
-import { UserContext } from '../../lib/context'
+
 import { auth, firestore } from '../../lib/firebase'
-import { useCollection } from 'react-firebase-hooks/firestore'
 
-import { useForm } from 'react-hook-form'
+import { usePaymentInputs } from 'react-payment-inputs'
 
-interface FormInput {
-    cardNumber: number
-    cvvCode: number
-    nameOnCard: string
-    date: Date
-}
+import toast from 'react-hot-toast'
+import Link from 'next/link'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCheck } from '@fortawesome/free-solid-svg-icons'
 
 const Checkout = () => {
     const router = useRouter()
     const { movieId } = router.query
 
-    const { register, handleSubmit, errors, formState } = useForm<FormInput>({
-        mode: 'onChange',
+    const {
+        meta,
+        getCardNumberProps,
+        getExpiryDateProps,
+        getCVCProps,
+    } = usePaymentInputs()
+
+    const [data, setData] = useState({
+        cardNumber: '',
+        expiryDate: '',
+        cvc: '',
     })
 
-    const { isValid, isDirty } = formState
+    const handleInputChange = (e) => {
+        setData({ ...data, [e.target.name]: e.target.value })
+    }
 
-    const onSubmit = (data: FormInput) => console.log(data)
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+        if (meta.isTouched && !meta.error) {
+            const uid = auth.currentUser.uid
 
-    // const onSubmit = async (data: FormInput) => {
-    //     const uid = auth.currentUser.uid
+            const movieRef = firestore
+                .collection('movies')
+                .where('id', '==', movieId)
 
-    //     const movieRef = firestore
-    //         .collection('movies')
-    //         .where('id', '==', movieId)
+            const getMovie = await movieRef.get()
 
-    //     const getMovie = await movieRef.get()
+            const movie = getMovie?.docs.map((doc) => doc.data())
 
-    //     const movie = getMovie?.docs.map((doc) => doc.data())
+            const userRef = firestore
+                .collection('users')
+                .doc(uid)
+                .collection('user_movies')
+                .doc()
 
-    //     const userRef = firestore
-    //         .collection('users')
-    //         .doc(uid)
-    //         .collection('user_movies')
-    //         .doc()
+            const userMovie = {
+                id: movie[0].id,
+                trailer: movie[0].trailer,
+                img: movie[0].img,
+                title: movie[0].title,
+                genre: movie[0].genre,
+            }
 
-    //     const userMovie = {
-    //         trailer: movie[0].trailer,
-    //         img: movie[0].img,
-    //         title: movie[0].title,
-    //         genre: movie[0].genre,
-    //     }
+            movie && (await userRef.set(userMovie))
 
-    //     movie && (await userRef.set(userMovie))
-
-    // }
+            toast((t) => (
+                <div className="p-8 text-center">
+                    <div className="rounded-full mx-auto bg-primary w-16 h-16 text-white flex items-center justify-center mb-6">
+                        <FontAwesomeIcon icon={faCheck} className="text-2xl" />
+                    </div>
+                    <p className="text-2xl font-sans font-bold mb-6">
+                        Payment Successfully Confiremed
+                    </p>
+                    <div className="flex space-x-6">
+                        <Link href="/movies">
+                            <a className="bg-primary text-white px-4 py-2 font-sans font-lg">
+                                back to Movies
+                            </a>
+                        </Link>
+                        <Link href="/">
+                            <a className="bg-theme text-white px-4 py-2 font-sans font-lg">
+                                go to Dashboard
+                            </a>
+                        </Link>
+                    </div>
+                </div>
+            ))
+        } else {
+            toast.error('Please enter valid info')
+        }
+    }
 
     return (
         <WithAuth>
             <section className="min-h-screen bg-theme flex items-center">
-                <div className="max-w-screen-lg w-full mx-auto">
+                <div className="max-w-screen-md w-full mx-auto">
                     <form
-                        onSubmit={handleSubmit(onSubmit)}
-                        className="border border-primary rounded"
+                        onSubmit={handleSubmit}
+                        className="border border-primary "
                     >
-                        <h2 className="text-2xl mb-6 text-center font-poppins font-bold text-white bg-primary py-6">
-                            Payment Info
-                        </h2>
-                        <div className="mb-6 p-4">
+                        <div className="bg-primary text-center">
+                            <h2 className="text-2xl font-poppins font-bold text-white py-4">
+                                Payment Details
+                            </h2>
+                        </div>
+                        <div className="p-6 flex flex-col space-y-4">
                             <label
-                                htmlFor="cardNumber"
-                                className="text-white mb-2 font-sans font-bold capitalize block"
+                                htmlFor="Card Number"
+                                className="font-sans text-white text-xl mb-2"
                             >
                                 Card Number
                             </label>
                             <input
-                                type="number"
-                                name="cardNumber"
-                                className="rounded text-white border border-gray-500 w-full p-2 bg-transparent"
-                                ref={register({
-                                    minLength: {
-                                        value: 13,
-                                        message:
-                                            'Card Number should contain more than 13 digits',
-                                    },
-                                    maxLength: {
-                                        value: 22,
-                                        message:
-                                            "Card number can't be more than 22 digits ",
-                                    },
-                                    required: {
-                                        value: true,
-                                        message: 'This Fied is required',
-                                    },
+                                className="rounded text-white border border-gray-500 w-full p-2 bg-transparent mb-2"
+                                {...getCardNumberProps({
+                                    onChange: handleInputChange,
                                 })}
+                                value={data.cardNumber}
                             />
-                            {errors.cardNumber && (
-                                <span className="text-red-300 font-sans text-lg my-4">
-                                    {errors.cardNumber.message}
-                                </span>
-                            )}
-                        </div>
-                        <div className="p-4 grid gap-6 grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3">
-                            <div>
-                                <label
-                                    htmlFor="cvvCode"
-                                    className="text-white mb-2 font-sans font-bold capitalize block"
-                                >
-                                    CVV Code
-                                </label>
-                                <input
-                                    type="number"
-                                    name="cvvCode"
-                                    className="rounded text-white border border-gray-500 w-full p-2 bg-transparent"
-                                    ref={register({
-                                        minLength: {
-                                            value: 3,
-                                            message:
-                                                "Cvv code cant't  contain less than 3 digits",
-                                        },
-                                        maxLength: {
-                                            value: 4,
-                                            message:
-                                                "Cvv code can't be more than 4 digits ",
-                                        },
-                                        required: {
-                                            value: true,
-                                            message: 'This Fied is required',
-                                        },
-                                    })}
-                                />
-
-                                {errors.cvvCode && (
-                                    <span className="text-red-300 font-sans text-lg my-4">
-                                        {errors.cvvCode.message}
+                            {meta.touchedInputs.cardNumber &&
+                                meta.erroredInputs.cardNumber && (
+                                    <span className="text-primary font-sans text-lg mb-2">
+                                        {meta.erroredInputs.cardNumber}
                                     </span>
                                 )}
-                            </div>
-                            <div>
-                                <label
-                                    htmlFor="name"
-                                    className="text-white mb-2 font-sans font-bold capitalize block"
-                                >
-                                    Name On Card
-                                </label>
-                                <input
-                                    type="text"
-                                    name="nameOnCard"
-                                    className="rounded text-white border border-gray-500 w-full p-2 bg-transparent"
-                                    ref={register({
-                                        pattern: {
-                                            value: /^([^0-9]*)$/,
-                                            message:
-                                                'Name should not contain numbers',
-                                        },
-                                        minLength: {
-                                            value: 3,
-                                            message:
-                                                "Name can't be less than 3 characters",
-                                        },
-                                        required: {
-                                            value: true,
-                                            message: 'This Fied is required',
-                                        },
-                                    })}
-                                />
-                                {errors.nameOnCard && (
-                                    <span className="text-red-300 font-sans text-lg my-4">
-                                        {errors.nameOnCard.message}
+                            <label
+                                htmlFor="Card Number"
+                                className="font-sans text-white text-xl mb-2"
+                            >
+                                Expirity Date
+                            </label>
+                            <input
+                                className="rounded text-white border border-gray-500 w-full p-2 bg-transparent mb-2"
+                                {...getExpiryDateProps({
+                                    onChange: handleInputChange,
+                                })}
+                                value={data.expiryDate}
+                            />
+                            {meta.touchedInputs.expiryDate &&
+                                meta.erroredInputs.expiryDate && (
+                                    <span className="text-primary font-sans text-lg mb-2">
+                                        {meta.erroredInputs.expiryDate}
                                     </span>
                                 )}
-                            </div>
-                            <div>
-                                <label
-                                    htmlFor="date"
-                                    className="text-white mb-2 font-sans font-bold capitalize block"
-                                >
-                                    Expidity Date
-                                </label>
-                                <input
-                                    type="date"
-                                    name="date"
-                                    className="rounded text-white border border-gray-500 w-full py-2 bg-transparent"
-                                    ref={register({
-                                        required: {
-                                            value: true,
-                                            message: 'this field is required',
-                                        },
-                                    })}
-                                />
-                                {errors.date && (
-                                    <span className="text-red-300 font-sans text-lg my-4">
-                                        {errors.date.message}
+                            <label
+                                htmlFor="Cvc"
+                                className="font-sans text-white text-xl mb-2"
+                            >
+                                Cvc Number
+                            </label>
+                            <input
+                                className="rounded text-white border border-gray-500 w-full p-2 bg-transparent"
+                                {...getCVCProps({
+                                    onChange: handleInputChange,
+                                })}
+                                value={data.cvc}
+                            />
+                            {meta.touchedInputs.cvc &&
+                                meta.erroredInputs.cvc && (
+                                    <span className="text-primary font-sans text-lg">
+                                        {meta.erroredInputs.cvc}
                                     </span>
                                 )}
-                            </div>
-                        </div>
-                        <div className="flex space-x-4 justify-center my-8">
-                            <button className=" w-44 py-2 px-6 bg-transparent text-sans sm:text-xl text-lg text-white font-bold rounded border border-primary">
-                                Back
-                            </button>
                             <button
                                 type="submit"
-                                className="disabled:cursor-not-allowed w-44 py-2 px-6 bg-primary text-sans sm:text-xl text-lg text-white font-bold rounded"
-                                disabled={!isDirty || !isValid}
+                                className="disabled:cursor-not-allowed bg-primary text-white font-sans px-6 py-2 mt-6 rounded self-center"
+                                disabled={meta.isTouched && meta.error}
                             >
-                                Confirm
+                                Submit
                             </button>
                         </div>
                     </form>
