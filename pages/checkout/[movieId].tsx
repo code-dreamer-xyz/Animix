@@ -1,16 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import WithAuth from '../../components/WithAuth'
-
 import { useRouter } from 'next/router'
-
 import { auth, firestore } from '../../lib/firebase'
-
 import { usePaymentInputs } from 'react-payment-inputs'
-
 import toast from 'react-hot-toast'
-
 import PaymentToast from '../../components/ui/PaymentToast'
 import { useDocumentOnce } from 'react-firebase-hooks/firestore'
+import Link from 'next/link'
 
 const Checkout = () => {
     const router = useRouter()
@@ -25,7 +21,7 @@ const Checkout = () => {
         .doc(stringMovieId)
 
     //check if the user already both the movie before
-    const [movieExistsInCollection] = useDocumentOnce(userMovieRef)
+    const [movieExistsInCollection, loading] = useDocumentOnce(userMovieRef)
 
     const {
         meta,
@@ -82,10 +78,20 @@ const Checkout = () => {
     return (
         <WithAuth>
             <section className="min-h-screen bg-theme flex items-center">
-                {movieExistsInCollection?.exists && (
-                    <p className="text-white">Movie In</p>
+                {loading && <p className="text-white">Loading...</p>}
+                {!loading && movieExistsInCollection?.exists && (
+                    <div className="text-center mx-auto p-4">
+                        <p className="text-white font-poppins text-3xl mb-8">
+                            You've already purchased this movie
+                        </p>
+                        <Link href="/dashboard/zino">
+                            <a className="rounded bg-primary px-4 py-2 text-white font-sans text-xl">
+                                Watch in Dashboard
+                            </a>
+                        </Link>
+                    </div>
                 )}
-                {!movieExistsInCollection?.exists && (
+                {!loading && !movieExistsInCollection?.exists && (
                     <div className="max-w-screen-md w-full mx-auto">
                         <form
                             onSubmit={handleSubmit}

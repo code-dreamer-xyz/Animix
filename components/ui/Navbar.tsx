@@ -25,7 +25,7 @@ const Navbar: React.FC = () => {
         <header className="absolute z-20 top-0 w-full  py-4">
             <nav className="max-w-screen-2xl mx-auto flex justify-between items-center">
                 <div>
-                    <Image src="/logo.png" alt="logo" width={250} height={74} />
+                    <Image src="/logo.png" alt="logo" width={200} height={70} />
                 </div>
                 <ul className="flex justify-between">
                     <li className="text-xl mx-4">
@@ -74,11 +74,20 @@ const Navbar: React.FC = () => {
                         </div>
 
                         <div
-                            className={`absolute -bottom-20 bg-white w-full left-0  flex-col space-y-4 p-2 ${
+                            className={`absolute -bottom-30 bg-white w-full left-0  flex-col space-y-4 p-2 ${
                                 open ? 'flex' : 'hidden'
                             }`}
                         >
-                            <button>Dashbord</button>
+                            <button>
+                                <Link href="/dashboard">
+                                    <a>My Movies</a>
+                                </Link>
+                            </button>
+                            <button>
+                                <Link href="/dashboard">
+                                    <a>WhishList</a>
+                                </Link>
+                            </button>
                             <button onClick={signOut}>Log Out</button>
                         </div>
                     </div>

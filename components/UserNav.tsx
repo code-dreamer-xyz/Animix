@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import Avatar from './ui/Avatar'
 
 interface Props {
@@ -17,10 +18,14 @@ const UserNav: React.FC<Props> = ({ img, userName }) => {
                 </div>
                 <div className="flex flex-col space-y-4">
                     <button className=" rounded-full px-6 py-2 bg-transparent border border-primary text-white">
-                        My Movies
+                        <Link href="/dashboard">
+                            <a href="">My Movies</a>
+                        </Link>
                     </button>
                     <button className=" rounded-full px-6 py-2 bg-transparent border border-primary text-white">
-                        My WhishList
+                        <Link href="/dashboard/whishlist">
+                            <a>My WhishList</a>
+                        </Link>
                     </button>
                     <button className="mt-auto px-6 py-2 rounded-full bg-transparent border border-primary text-white">
                         Log Out

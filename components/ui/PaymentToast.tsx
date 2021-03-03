@@ -18,7 +18,7 @@ const PaymentToast = () => {
                         back to Movies
                     </a>
                 </Link>
-                <Link href="/">
+                <Link href="/dashboard">
                     <a className="bg-theme text-white px-4 py-2 font-sans font-lg">
                         go to Dashboard
                     </a>
