@@ -50,7 +50,7 @@ const Home = ({ movies }) => {
                     2xl:top-2/4 
                     2xl:transform 2xl:-translate-y-1/2 2xl:-right-12"
                     >
-                        <ImgSlider movies={movies} />
+                        <ImgSlider movies={movies ? movies : null} />
                     </div>
                 </div>
             </div>

@@ -1,13 +1,14 @@
 import Link from 'next/link'
-import { useContext } from 'react'
-import { UserContext } from '../lib/context'
+
+import { useAuthState } from 'react-firebase-hooks/auth'
+
+import Login from '../pages/login'
+import { auth } from '../lib/firebase'
 
 const WithAuth = (props) => {
-    const { user } = useContext(UserContext)
+    const [user] = useAuthState(auth)
 
-    return user
-        ? props.children
-        : props.fallback || <Link href="/login">You Must Login First</Link>
+    return user ? props.children : <Login />
 }
 
 export default WithAuth

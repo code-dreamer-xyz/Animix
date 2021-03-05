@@ -2,10 +2,13 @@ import Button from '../components/ui/Button'
 
 import CommentList from '../components/Comments/CommentList'
 import { GetStaticPaths } from 'next'
-import { commentToJSON, firestore } from '../lib/firebase'
+import { auth, firestore } from '../lib/firebase'
 
-import { useCollection } from 'react-firebase-hooks/firestore'
+import { useCollection, useDocumentOnce } from 'react-firebase-hooks/firestore'
 import Link from 'next/link'
+import { useAuthState } from 'react-firebase-hooks/auth'
+import toast from 'react-hot-toast'
+import { useRouter } from 'next/router'
 
 export const getStaticPaths: GetStaticPaths = async () => {
     const snapshot = await firestore.collection('movies').get()
@@ -37,6 +40,8 @@ export const getStaticProps = async ({ params }) => {
 }
 
 const MovieDetail = ({ movie }) => {
+    const [user] = useAuthState(auth)
+
     const commentsQuery = firestore
         .collectionGroup('comments')
         .where('movie_id', '==', movie.id)
@@ -61,16 +66,18 @@ const MovieDetail = ({ movie }) => {
                             {movie.desc}
                         </p>
                         <p className="text-lg text-gray-500 font-sans mb-6">
-                            Price:{' '}
+                            Price:
                             <span className="text-primary font-bold">
                                 {movie.price}£
                             </span>
                         </p>
+
                         <Button>
                             <Link href={`checkout/${movie.id}`}>
                                 <a>Buy</a>
                             </Link>
                         </Button>
+
                         <p className="text-lg text-gray-300 font-sans mt-2 underline">
                             Add To WhishList
                         </p>

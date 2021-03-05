@@ -1,12 +1,13 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import WithAuth from '../../components/WithAuth'
 import { useRouter } from 'next/router'
 import { auth, firestore } from '../../lib/firebase'
 import { usePaymentInputs } from 'react-payment-inputs'
 import toast from 'react-hot-toast'
 import PaymentToast from '../../components/ui/PaymentToast'
-import { useDocumentOnce } from 'react-firebase-hooks/firestore'
 import Link from 'next/link'
+import { UserContext } from '../../lib/context'
+import { moviePurshased } from '../../lib/hooks'
 
 const Checkout = () => {
     const router = useRouter()
@@ -14,14 +15,46 @@ const Checkout = () => {
 
     const stringMovieId = typeof movieId === 'string' ? movieId : movieId[0]
 
-    const userMovieRef = firestore
-        .collection('users')
-        .doc(auth.currentUser.uid)
-        .collection('user_movies')
-        .doc(stringMovieId)
+    // if (user) {
+    //     const userMovieRef = firestore
+    //         .collection('users')
+    //         .doc(auth.currentUser.uid)
+    //         .collection('user_movies')
+    //         .doc(stringMovieId)
 
-    //check if the user already both the movie before
-    const [movieExistsInCollection, loading] = useDocumentOnce(userMovieRef)
+    //     useEffect(() => {
+    //         const fetchMovie = async () => {
+    //             try {
+    //                 const movie = await userMovieRef.get()
+    //                 if (movie.exists) {
+    //                     setExist(true)
+    //                 } else {
+    //                     setExist(false)
+    //                 }
+    //             } catch (err) {
+    //                 console.log(err.message)
+    //             }
+    //         }
+
+    //         fetchMovie()
+    //         console.log('read')
+    //     }, [])
+    //}
+
+    const { user } = useContext(UserContext)
+    const [movieExists, setMovieExists] = useState(false)
+
+    useEffect(() => {
+        const fetchMovies = async () => {
+            if (user) {
+                setMovieExists(await moviePurshased(stringMovieId, user.uid))
+            } else {
+                setMovieExists(false)
+            }
+        }
+
+        fetchMovies()
+    }, [user])
 
     const {
         meta,
@@ -43,7 +76,7 @@ const Checkout = () => {
     const handleSubmit = async (e) => {
         e.preventDefault()
         if (meta.isTouched && !meta.error) {
-            const uid = auth.currentUser.uid
+            const uid = auth?.currentUser?.uid
 
             const movieRef = firestore
                 .collection('movies')
@@ -78,20 +111,19 @@ const Checkout = () => {
     return (
         <WithAuth>
             <section className="min-h-screen bg-theme flex items-center">
-                {loading && <p className="text-white">Loading...</p>}
-                {!loading && movieExistsInCollection?.exists && (
+                {movieExists && (
                     <div className="text-center mx-auto p-4">
                         <p className="text-white font-poppins text-3xl mb-8">
                             You've already purchased this movie
                         </p>
-                        <Link href="/dashboard/zino">
+                        <Link href="/dashboard">
                             <a className="rounded bg-primary px-4 py-2 text-white font-sans text-xl">
                                 Watch in Dashboard
                             </a>
                         </Link>
                     </div>
                 )}
-                {!loading && !movieExistsInCollection?.exists && (
+                {!movieExists && (
                     <div className="max-w-screen-md w-full mx-auto">
                         <form
                             onSubmit={handleSubmit}

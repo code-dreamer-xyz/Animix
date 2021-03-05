@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { useState } from 'react'
+import Skeleton from 'react-loading-skeleton'
 import Slider from 'react-slick'
 
 const ImgSlider = ({ movies }) => {
@@ -19,6 +20,12 @@ const ImgSlider = ({ movies }) => {
 
     return (
         <Slider {...settings}>
+            {!movies &&
+                new Array(3).fill({}).map((item, index) => (
+                    <div key={`key-${index}`}>
+                        <Skeleton height={430} width={320} />
+                    </div>
+                ))}
             {movies.map((movie, index) => (
                 <Link href={`/${movie.id}`} key={movie.id}>
                     <a>
