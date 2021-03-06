@@ -8,6 +8,7 @@ import PaymentToast from '../../components/ui/PaymentToast'
 import Link from 'next/link'
 import { UserContext } from '../../lib/context'
 import { moviePurshased } from '../../lib/hooks'
+import Loader from 'react-spinners/ClipLoader'
 
 const Checkout = () => {
     const router = useRouter()
@@ -15,45 +16,23 @@ const Checkout = () => {
 
     const stringMovieId = typeof movieId === 'string' ? movieId : movieId[0]
 
-    // if (user) {
-    //     const userMovieRef = firestore
-    //         .collection('users')
-    //         .doc(auth.currentUser.uid)
-    //         .collection('user_movies')
-    //         .doc(stringMovieId)
-
-    //     useEffect(() => {
-    //         const fetchMovie = async () => {
-    //             try {
-    //                 const movie = await userMovieRef.get()
-    //                 if (movie.exists) {
-    //                     setExist(true)
-    //                 } else {
-    //                     setExist(false)
-    //                 }
-    //             } catch (err) {
-    //                 console.log(err.message)
-    //             }
-    //         }
-
-    //         fetchMovie()
-    //         console.log('read')
-    //     }, [])
-    //}
-
     const { user } = useContext(UserContext)
     const [movieExists, setMovieExists] = useState(false)
+    const [loading, setLoading] = useState(true)
 
     useEffect(() => {
-        const fetchMovies = async () => {
+        setLoading(true)
+        const fetchMovie = async () => {
             if (user) {
                 setMovieExists(await moviePurshased(stringMovieId, user.uid))
+                setLoading(false)
             } else {
                 setMovieExists(false)
+                setLoading(false)
             }
         }
 
-        fetchMovies()
+        fetchMovie()
     }, [user])
 
     const {
@@ -111,7 +90,8 @@ const Checkout = () => {
     return (
         <WithAuth>
             <section className="min-h-screen bg-theme flex items-center">
-                {movieExists && (
+                {loading && <Loader />}
+                {!loading && movieExists && (
                     <div className="text-center mx-auto p-4">
                         <p className="text-white font-poppins text-3xl mb-8">
                             You've already purchased this movie
@@ -123,7 +103,7 @@ const Checkout = () => {
                         </Link>
                     </div>
                 )}
-                {!movieExists && (
+                {!loading && !movieExists && (
                     <div className="max-w-screen-md w-full mx-auto">
                         <form
                             onSubmit={handleSubmit}

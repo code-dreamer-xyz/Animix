@@ -27,6 +27,7 @@
     "react-payment-inputs": "^1.1.7",
     "react-player": "^2.9.0",
     "react-slick": "^0.28.0",
+    "react-spinners": "^0.10.6",
     "slick-carousel": "^1.8.1",
     "tailwindcss": "^2.0.2",
     "timeago-react": "^3.0.2"
