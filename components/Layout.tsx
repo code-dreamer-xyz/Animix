@@ -1,11 +1,13 @@
+import { pageAnimation } from '../helpers/animation'
 import Navbar from './ui/Navbar'
+import { motion } from 'framer-motion'
 
 const Layout: React.FC = ({ children }) => {
     return (
-        <main className="overflow-x-hidden">
+        <motion.main className="overflow-x-hidden">
             <Navbar />
             {children}
-        </main>
+        </motion.main>
     )
 }
 

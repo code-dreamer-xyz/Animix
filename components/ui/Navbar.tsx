@@ -22,7 +22,7 @@ const Navbar: React.FC = () => {
     }
 
     return (
-        <header className="absolute z-20 top-0 w-full  py-4">
+        <header className="absolute z-10  top-0 w-full  py-4">
             <nav className="max-w-screen-2xl mx-auto flex justify-between items-center">
                 <div>
                     <Image src="/logo.png" alt="logo" width={200} height={70} />

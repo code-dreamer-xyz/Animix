@@ -11,3 +11,7 @@ input[type='month']::-webkit-calendar-picker-indicator {
     -webkit-appearance: none;
     display: none;
 }
+
+html {
+    background-color: #1f1f1f;
+}

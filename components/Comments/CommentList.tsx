@@ -1,11 +1,13 @@
+import { motion } from 'framer-motion'
 import React from 'react'
+import { slideUpVariants } from '../../helpers/animation'
 
 import AddComment from './AddComment'
 import Comment from './Comment'
 
 const CommentList = ({ comments, movie_id }) => {
     return (
-        <div>
+        <motion.div variants={slideUpVariants}>
             <h3 className="mb-8 text-white font-poppins underline text-xl">
                 Comments
             </h3>
@@ -14,7 +16,7 @@ const CommentList = ({ comments, movie_id }) => {
                 comments.map((comment) => (
                     <Comment key={comment.id} comment={comment} />
                 ))}
-        </div>
+        </motion.div>
     )
 }
 

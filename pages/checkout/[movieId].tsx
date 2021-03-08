@@ -9,16 +9,24 @@ import Link from 'next/link'
 import { UserContext } from '../../lib/context'
 import { moviePurshased } from '../../lib/hooks'
 import Loader from 'react-spinners/ClipLoader'
+import {
+    pageAnimation,
+    slideDownVariants,
+    slideUpVariants,
+    staggerChildren,
+} from '../../helpers/animation'
+import { motion } from 'framer-motion'
 
 const Checkout = () => {
     const router = useRouter()
     const { movieId } = router.query
 
-    const stringMovieId = typeof movieId === 'string' ? movieId : movieId[0]
-
     const { user } = useContext(UserContext)
     const [movieExists, setMovieExists] = useState(false)
     const [loading, setLoading] = useState(true)
+
+    const stringMovieId =
+        typeof movieId === 'string' ? movieId : movieId && movieId[0]
 
     useEffect(() => {
         setLoading(true)
@@ -89,32 +97,56 @@ const Checkout = () => {
 
     return (
         <WithAuth>
-            <section className="min-h-screen bg-theme flex items-center">
+            <motion.section
+                {...pageAnimation}
+                className="min-h-screen bg-theme flex items-center"
+            >
                 {loading && <Loader />}
                 {!loading && movieExists && (
-                    <div className="text-center mx-auto p-4">
-                        <p className="text-white font-poppins text-3xl mb-8">
+                    <motion.div
+                        initial="exit"
+                        animate="enter"
+                        exit="exit"
+                        variants={staggerChildren}
+                        className="text-center mx-auto p-4"
+                    >
+                        <motion.p
+                            variants={slideDownVariants}
+                            className="text-white font-poppins text-3xl mb-8"
+                        >
                             You've already purchased this movie
-                        </p>
-                        <Link href="/dashboard">
-                            <a className="rounded bg-primary px-4 py-2 text-white font-sans text-xl">
-                                Watch in Dashboard
-                            </a>
-                        </Link>
-                    </div>
+                        </motion.p>
+                        <motion.div variants={slideDownVariants}>
+                            <Link href="/dashboard">
+                                <a className="rounded bg-primary px-4 py-2 text-white font-sans text-xl">
+                                    Watch in Dashboard
+                                </a>
+                            </Link>
+                        </motion.div>
+                    </motion.div>
                 )}
                 {!loading && !movieExists && (
                     <div className="max-w-screen-md w-full mx-auto">
-                        <form
+                        <motion.form
                             onSubmit={handleSubmit}
                             className="border border-primary "
+                            initial="exit"
+                            animate="enter"
+                            exit="exit"
+                            variants={staggerChildren}
                         >
                             <div className="bg-primary text-center">
-                                <h2 className="text-2xl font-poppins font-bold text-white py-4">
+                                <motion.h2
+                                    variants={slideDownVariants}
+                                    className="text-2xl font-poppins font-bold text-white py-4"
+                                >
                                     Payment Details
-                                </h2>
+                                </motion.h2>
                             </div>
-                            <div className="p-6 flex flex-col space-y-4">
+                            <motion.div
+                                variants={slideUpVariants}
+                                className="p-6 flex flex-col space-y-4"
+                            >
                                 <label
                                     htmlFor="Card Number"
                                     className="font-sans text-white text-xl mb-2"
@@ -179,11 +211,11 @@ const Checkout = () => {
                                 >
                                     Submit
                                 </button>
-                            </div>
-                        </form>
+                            </motion.div>
+                        </motion.form>
                     </div>
                 )}
-            </section>
+            </motion.section>
         </WithAuth>
     )
 }

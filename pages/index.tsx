@@ -1,7 +1,9 @@
+import { motion } from 'framer-motion'
 import Link from 'next/link'
 import ImgSlider from '../components/ImgSlider'
 
 import Button from '../components/ui/Button'
+import { slideUpVariants, staggerChildren, scaleUp } from '../helpers/animation'
 import { firestore } from '../lib/firebase'
 
 export const getStaticProps = async (context) => {
@@ -22,26 +24,43 @@ export const getStaticProps = async (context) => {
 
 const Home = ({ movies }) => {
     return (
-        <section
+        <motion.section
+            initial="exit"
+            animate="enter"
+            exit="exit"
             style={{ backgroundImage: `url("/bg.jpg")` }}
             className="relative overflow-x-hidden bg-cover  min-h-screen"
         >
             <div className="absolute  min-h-screen w-full top-0 left-0 bg-overlay 2xl:px-0 px-4">
                 <div className="h-full max-w-screen-2xl min-h-screen mx-auto 2xl:block flex flex-col justify-center xl:space-y-6 space-y-12 py-20 2xl:py-0">
                     <div className="flex items-center 2xl:min-h-screen">
-                        <div>
-                            <h1 className="sm:mb-6 mb-4 text-white font-bold text-white md:text-8xl font-poppins sm:text-5xl text-4xl">
+                        <motion.div
+                            initial="exit"
+                            animate="enter"
+                            exit="exit"
+                            variants={staggerChildren}
+                            custom={0.2}
+                        >
+                            <motion.h1
+                                variants={slideUpVariants}
+                                className="sm:mb-6 mb-4 text-white font-bold text-white md:text-8xl font-poppins sm:text-5xl text-4xl"
+                            >
                                 Anime Movies <br /> Night
-                            </h1>
-                            <p className="md:mb-12 mb-4 font-sans text-gray-100 md:text-2xl text-xl">
+                            </motion.h1>
+                            <motion.p
+                                variants={slideUpVariants}
+                                className="md:mb-12 mb-4 font-sans text-gray-100 md:text-2xl text-xl"
+                            >
                                 Collection of Top anime Movies.
-                            </p>
-                            <Link href="/movies">
-                                <a>
-                                    <Button>Explore</Button>
-                                </a>
-                            </Link>
-                        </div>
+                            </motion.p>
+                            <motion.div variants={slideUpVariants}>
+                                <Link href="/movies">
+                                    <a>
+                                        <Button>Explore</Button>
+                                    </a>
+                                </Link>
+                            </motion.div>
+                        </motion.div>
                     </div>
                     <div
                         className="slider-container 
@@ -50,11 +69,13 @@ const Home = ({ movies }) => {
                     2xl:top-2/4 
                     2xl:transform 2xl:-translate-y-1/2 2xl:-right-12"
                     >
-                        <ImgSlider movies={movies ? movies : null} />
+                        <motion.div variants={scaleUp}>
+                            <ImgSlider movies={movies ? movies : null} />
+                        </motion.div>
                     </div>
                 </div>
             </div>
-        </section>
+        </motion.section>
     )
 }
 

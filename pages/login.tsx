@@ -3,6 +3,12 @@ import toast from 'react-hot-toast'
 import { useContext } from 'react'
 import { UserContext } from '../lib/context'
 import Link from 'next/link'
+import {
+    pageAnimation,
+    slideUpVariants,
+    staggerChildren,
+} from '../helpers/animation'
+import { motion } from 'framer-motion'
 
 const Login = () => {
     const { user } = useContext(UserContext)
@@ -18,25 +24,37 @@ const Login = () => {
     }
 
     return (
-        <section className="min-h-screen bg-theme flex items-center justify-center">
-            <div className="max-w-screen-2xl mx-auto">
+        <motion.section
+            {...pageAnimation}
+            className="min-h-screen bg-theme flex items-center justify-center"
+        >
+            <motion.div
+                initial="exit"
+                animate="enter"
+                exit="exit"
+                variants={staggerChildren}
+                className="max-w-screen-2xl mx-auto"
+            >
                 {!user && (
-                    <button
+                    <motion.button
+                        variants={slideUpVariants}
                         className="bg-primary text-white px-6 py-2 font-sans font-bold rounded"
                         onClick={signInWithGoogle}
                     >
                         Sign In With Google
-                    </button>
+                    </motion.button>
                 )}
                 {user && (
-                    <Link href="/dashboard">
-                        <a className="rounded bg-primary px-4 py-2 text-white font-sans text-xl">
-                            Go To Dashboard
-                        </a>
-                    </Link>
+                    <motion.div variants={slideUpVariants}>
+                        <Link href="/dashboard">
+                            <a className="rounded bg-primary px-4 py-2 text-white font-sans text-xl">
+                                Go To Dashboard
+                            </a>
+                        </Link>
+                    </motion.div>
                 )}
-            </div>
-        </section>
+            </motion.div>
+        </motion.section>
     )
 }
 
