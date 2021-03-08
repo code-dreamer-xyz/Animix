@@ -13,6 +13,10 @@ import {
     itemVariants,
 } from '../helpers/animation'
 import { motion } from 'framer-motion'
+import { useState } from 'react'
+import ReactPlayer from 'react-player'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPlay } from '@fortawesome/free-solid-svg-icons'
 
 export const getStaticPaths: GetStaticPaths = async () => {
     const snapshot = await firestore.collection('movies').get()
@@ -52,6 +56,8 @@ const MovieDetail = ({ movie }) => {
     const [realtimeComments] = useCollection(commentsQuery)
 
     const comments = realtimeComments?.docs.map((doc) => doc.data())
+
+    const [isOpen, setIsOpen] = useState(false)
 
     return (
         <motion.section
@@ -106,7 +112,7 @@ const MovieDetail = ({ movie }) => {
                     </motion.div>
                     <motion.div
                         variants={itemVariants}
-                        className="justify-self-end"
+                        className="justify-self-end relative"
                     >
                         <img
                             src={movie.img}
@@ -114,10 +120,40 @@ const MovieDetail = ({ movie }) => {
                             height={500}
                             className="rounded-md"
                         />
+                        <button
+                            className="text-2xl text-primary py-4 px-6 rounded-full absolute top-1/2 left-1/2 transform -translate-x-1/2 bg-white -translate-y-1/2"
+                            onClick={() => setIsOpen(true)}
+                        >
+                            <FontAwesomeIcon icon={faPlay} />
+                        </button>
                     </motion.div>
                 </div>
                 <CommentList comments={comments} movie_id={movie.id} />
             </div>
+            {isOpen && (
+                <motion.div
+                    initial={{ opacity: 0, scale: 0 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                >
+                    <div
+                        className={`fixed top-0 left-0 z-30 w-screen bg-gray-800 flex flex-col px-6 py-4 h-screen `}
+                    >
+                        <button
+                            className="focus:outline-none bg-white text-gray-800 font-bold font-sans py-1 px-2 self-end rounded my-2 "
+                            onClick={() => setIsOpen(!isOpen)}
+                        >
+                            X
+                        </button>
+                        <div className="border border-white rounded w-full h-full">
+                            <ReactPlayer
+                                width={'100%'}
+                                height={'100%'}
+                                url={movie.trailer}
+                            />
+                        </div>
+                    </div>
+                </motion.div>
+            )}
         </motion.section>
     )
 }
