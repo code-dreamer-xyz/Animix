@@ -1,6 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react'
 import MovieCard from '../../components/ui/MovieCard'
-import ReactPlayer from 'react-player'
 
 import WithAuth from '../../components/WithAuth'
 
@@ -15,6 +14,8 @@ import {
     staggerChildren,
 } from '../../helpers/animation'
 import { motion } from 'framer-motion'
+import Modal from '../../components/ui/Modal'
+import MoviePlayer from '../../components/ui/MoviePlayer'
 
 const UserDashboard = () => {
     const { user } = useContext(UserContext)
@@ -42,6 +43,8 @@ const UserDashboard = () => {
         setCurrentPlayer(url)
         setOpen(true)
     }
+
+    const closeModal = () => setOpen(false)
 
     return (
         <WithAuth>
@@ -87,16 +90,25 @@ const UserDashboard = () => {
                                                 variants={scaleUp}
                                                 className="absolute top-0 left-0 h-full w-full flex items-center justify-center"
                                             >
-                                                <button
+                                                <motion.button
                                                     onClick={() =>
                                                         onPlayClick(
                                                             movie.trailer
                                                         )
                                                     }
+                                                    whileHover={{
+                                                        position: 'relative',
+                                                        zIndex: 1,
+                                                        scale: 1.1,
+                                                        transition: {
+                                                            duration: 0.2,
+                                                        },
+                                                    }}
+                                                    whileTap={{ scale: 0.9 }}
                                                     className="py-2 px-6 rounded bg-primary text-white font-sans font-bold text-2xl"
                                                 >
                                                     Watch
-                                                </button>
+                                                </motion.button>
                                             </motion.div>
                                         </motion.div>
                                     ))}
@@ -105,30 +117,9 @@ const UserDashboard = () => {
                     )}
                 </div>
 
-                {currentPlayer && isOpen && (
-                    <motion.div
-                        initial={{ opacity: 0, scale: 0 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                    >
-                        <div
-                            className={`fixed top-0 left-0 z-30 w-screen bg-gray-800 flex flex-col px-6 py-4 h-screen `}
-                        >
-                            <button
-                                className="bg-white text-gray-800 font-bold font-sans py-1 px-2 self-end rounded my-2 "
-                                onClick={() => setOpen(!isOpen)}
-                            >
-                                X
-                            </button>
-                            <div className="border border-white rounded w-full h-full">
-                                <ReactPlayer
-                                    width={'100%'}
-                                    height={'100%'}
-                                    url={currentPlayer}
-                                />
-                            </div>
-                        </div>
-                    </motion.div>
-                )}
+                <Modal modalIsOpen={isOpen} closeModal={closeModal}>
+                    <MoviePlayer url={currentPlayer} closeModal={closeModal} />
+                </Modal>
             </motion.section>
         </WithAuth>
     )

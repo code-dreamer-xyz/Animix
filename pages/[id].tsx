@@ -7,16 +7,16 @@ import { firestore } from '../lib/firebase'
 import { useCollection } from 'react-firebase-hooks/firestore'
 import Link from 'next/link'
 import {
-    fadeInVariant,
     slideUpVariants,
     staggerChildren,
     itemVariants,
 } from '../helpers/animation'
 import { motion } from 'framer-motion'
 import { useState } from 'react'
-import ReactPlayer from 'react-player'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlay } from '@fortawesome/free-solid-svg-icons'
+import MoviePlayer from '../components/ui/MoviePlayer'
+import Modal from '../components/ui/Modal'
 
 export const getStaticPaths: GetStaticPaths = async () => {
     const snapshot = await firestore.collection('movies').get()
@@ -58,6 +58,8 @@ const MovieDetail = ({ movie }) => {
     const comments = realtimeComments?.docs.map((doc) => doc.data())
 
     const [isOpen, setIsOpen] = useState(false)
+
+    const closeModal = () => setIsOpen(false)
 
     return (
         <motion.section
@@ -130,30 +132,9 @@ const MovieDetail = ({ movie }) => {
                 </div>
                 <CommentList comments={comments} movie_id={movie.id} />
             </div>
-            {isOpen && (
-                <motion.div
-                    initial={{ opacity: 0, scale: 0 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                >
-                    <div
-                        className={`fixed top-0 left-0 z-30 w-screen bg-gray-800 flex flex-col px-6 py-4 h-screen `}
-                    >
-                        <button
-                            className="focus:outline-none bg-white text-gray-800 font-bold font-sans py-1 px-2 self-end rounded my-2 "
-                            onClick={() => setIsOpen(!isOpen)}
-                        >
-                            X
-                        </button>
-                        <div className="border border-white rounded w-full h-full">
-                            <ReactPlayer
-                                width={'100%'}
-                                height={'100%'}
-                                url={movie.trailer}
-                            />
-                        </div>
-                    </div>
-                </motion.div>
-            )}
+            <Modal modalIsOpen={isOpen} closeModal={closeModal}>
+                <MoviePlayer url={movie.trailer} closeModal={closeModal} />
+            </Modal>
         </motion.section>
     )
 }

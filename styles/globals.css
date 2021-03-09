@@ -6,6 +6,10 @@ html {
     background-color: #1f1f1f;
 }
 
+.ReactModal__Overlay.ReactModal__Overlay--after-open {
+    z-index: 99999;
+}
+
 /* NProgress Styles */
 /* Make clicks pass-through */
 #nprogress {
