@@ -13,7 +13,16 @@ import { UserContext } from '../lib/context'
 import { useUserData } from '../lib/hooks'
 
 import { AnimatePresence, motion } from 'framer-motion'
-import { useRouter } from 'next/router'
+import { Router, useRouter } from 'next/router'
+import NProgress from 'nprogress'
+
+Router.events.on('routeChangeStart', (url) => {
+    console.log(`loading, ${url}`)
+    NProgress.start()
+})
+
+Router.events.on('routeChangeComplete', () => NProgress.done())
+Router.events.on('routeChangeError', () => NProgress.done())
 
 function MyApp({ Component, pageProps }: AppProps) {
     const userData = useUserData()
