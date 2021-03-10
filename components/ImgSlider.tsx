@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { useState } from 'react'
 import Skeleton from 'react-loading-skeleton'
 import Slider from 'react-slick'
+import Image from 'next/image'
 
 const ImgSlider = ({ movies }) => {
     const [imageIndex, setImageIndex] = useState(0)
@@ -30,7 +31,7 @@ const ImgSlider = ({ movies }) => {
             {movies.map((movie, index) => (
                 <Link href={`/${movie.id}`} key={movie.id}>
                     <a>
-                        <img
+                        <Image
                             src={movie.img}
                             alt="anime"
                             className={`transition-transform  duration-300 ${
@@ -38,7 +39,8 @@ const ImgSlider = ({ movies }) => {
                                     ? ' transform scale-95'
                                     : 'transform scale-75'
                             }`}
-                            style={{ width: 340, height: 430 }}
+                            width={340}
+                            height={430}
                         />
                     </a>
                 </Link>

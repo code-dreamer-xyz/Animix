@@ -12,12 +12,11 @@ import { Toaster } from 'react-hot-toast'
 import { UserContext } from '../lib/context'
 import { useUserData } from '../lib/hooks'
 
-import { AnimatePresence, motion } from 'framer-motion'
+import { AnimatePresence } from 'framer-motion'
 import { Router, useRouter } from 'next/router'
 import NProgress from 'nprogress'
 
 Router.events.on('routeChangeStart', (url) => {
-    console.log(`loading, ${url}`)
     NProgress.start()
 })
 

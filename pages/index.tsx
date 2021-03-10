@@ -1,21 +1,26 @@
 import { motion } from 'framer-motion'
 import Link from 'next/link'
+import toast from 'react-hot-toast'
 import ImgSlider from '../components/ImgSlider'
 
 import Button from '../components/ui/Button'
 import { slideUpVariants, staggerChildren, scaleUp } from '../helpers/animation'
 import { firestore } from '../lib/firebase'
 
-export const getStaticProps = async (context) => {
-    const moviesData = await firestore
-        .collection('movies')
-        .where('price', '>', 25)
-        .limit(4)
-        .get()
-
+export const getStaticProps = async () => {
     const movies = []
 
-    moviesData.forEach((movie) => movies.push(movie.data()))
+    try {
+        const moviesData = await firestore
+            .collection('movies')
+            .where('price', '>', 25)
+            .limit(4)
+            .get()
+
+        moviesData.forEach((movie) => movies.push(movie.data()))
+    } catch (error) {
+        toast.error(error.message)
+    }
 
     return {
         props: { movies },

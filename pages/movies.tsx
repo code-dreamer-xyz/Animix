@@ -6,15 +6,19 @@ import Link from 'next/link'
 import Loader from '../components/ui/Loader'
 import { pageAnimation, staggerChildren } from '../helpers/animation'
 import { motion } from 'framer-motion'
+import toast from 'react-hot-toast'
 
 export const getStaticProps: GetStaticProps = async (context) => {
-    const data = await firestore.collection('movies').get()
-
     const movies = []
 
-    data.forEach((doc) => {
-        movies.push(doc.data())
-    })
+    try {
+        const data = await firestore.collection('movies').get()
+        data.forEach((doc) => {
+            movies.push(doc.data())
+        })
+    } catch (error) {
+        toast.error(error.message)
+    }
 
     return {
         props: { movies },

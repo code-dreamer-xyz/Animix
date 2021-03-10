@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion'
 
 import { slideUpVariants, textVariants } from '../../helpers/animation'
+import Image from 'next/image'
 
 interface MovieProps {
     img: string
@@ -11,23 +12,26 @@ interface MovieProps {
 
 const MovieCard: React.FC<MovieProps> = ({ img, title, genre }) => {
     return (
-        <motion.div
-            whileHover={{
-                position: 'relative',
-                zIndex: 1,
-                scale: 1.1,
-                transition: {
-                    duration: 0.2,
-                },
-            }}
-            whileTap={{ scale: 0.9 }}
-            className="text-center"
-        >
-            <motion.div variants={slideUpVariants} className="mb-2">
-                <img
+        <motion.div className="text-center">
+            <motion.div
+                whileHover={{
+                    position: 'relative',
+                    zIndex: 1,
+                    scale: 1.1,
+                    transition: {
+                        duration: 0.2,
+                    },
+                }}
+                whileTap={{ scale: 0.9 }}
+                variants={slideUpVariants}
+                className="mb-2"
+            >
+                <Image
                     className="rounded-md w-80 h-96 block mx-auto"
                     src={img}
                     alt="movie"
+                    width={320}
+                    height={384}
                 />
             </motion.div>
             <motion.p

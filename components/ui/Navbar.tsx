@@ -11,44 +11,56 @@ import { UserContext } from '../../lib/context'
 import { useState } from 'react'
 import { auth } from '../../lib/firebase'
 import toast from 'react-hot-toast'
+import { motion } from 'framer-motion'
 
 const Navbar: React.FC = () => {
     const [open, setOpen] = useState(false)
     const { user, userProfile } = useContext(UserContext)
 
     const signOut = () => {
-        auth.signOut()
-        toast.success('successfully signed out')
+        try {
+            auth.signOut()
+            toast.success('successfully signed out')
+        } catch (error) {
+            toast.error('signing out failed')
+        }
     }
+
+    const routes = [
+        {
+            path: '/',
+            page: 'Home',
+        },
+        {
+            path: '/movies',
+            page: 'Movies',
+        },
+        {
+            path: '/contact',
+            page: 'Contact',
+        },
+    ]
 
     return (
         <header className="absolute z-10  top-0 w-full  py-4">
             <nav className="max-w-screen-2xl mx-auto flex justify-between items-center">
                 <div>
-                    <Image src="/logo.png" alt="logo" width={200} height={70} />
+                    <Image src="/logo.png" alt="logo" width={150} height={50} />
                 </div>
                 <ul className="flex justify-between">
-                    <li className="text-xl mx-4">
-                        <Link href="/">
-                            <a className="font-poppins font-bold text-white">
-                                Home
-                            </a>
-                        </Link>
-                    </li>
-                    <li className="text-xl mx-4">
-                        <Link href="/movies">
-                            <a className="font-poppins font-bold text-white">
-                                Movies
-                            </a>
-                        </Link>
-                    </li>
-                    <li className="text-xl mx-4">
-                        <Link href="/contact">
-                            <a className="font-poppins font-bold text-white">
-                                Contact
-                            </a>
-                        </Link>
-                    </li>
+                    {routes.map(({ path, page }) => (
+                        <motion.li
+                            whileTap={{ scale: 0.9 }}
+                            className="text-xl mx-4"
+                            key={path}
+                        >
+                            <Link href={path}>
+                                <a className="hover:text-primary cursor-pointer font-poppins font-bold text-white">
+                                    {page}
+                                </a>
+                            </Link>
+                        </motion.li>
+                    ))}
                 </ul>
                 {!user && (
                     <Button>

@@ -1,13 +1,33 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import Avatar from '../ui/Avatar'
 import TimeAgo from 'timeago-react'
+import { UserContext } from '../../lib/context'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faTrash } from '@fortawesome/free-solid-svg-icons'
+import { auth, firestore } from '../../lib/firebase'
+import toast from 'react-hot-toast'
 
 const Comment = ({ comment }) => {
+    const { user } = useContext(UserContext)
+    const onDelClick = async () => {
+        const commentRef = firestore
+            .collection('users')
+            .doc(auth.currentUser.uid)
+            .collection('comments')
+            .doc(comment.id)
+        try {
+            await commentRef.delete()
+            toast.success('comment deleted ✅')
+        } catch (error) {
+            toast.error('Failed deleting the comment')
+        }
+    }
+
     return (
         <div className="flex space-x-4 mb-6">
             <Avatar img={comment?.user_img} />
-            <div>
-                <div className="flex space-x-2 mb-4 items-center">
+            <div className="relative w-72">
+                <div className=" flex space-x-2 mb-4 items-center">
                     <p className="text-white text-xl font-sans">Zino</p>
                     <span className="text-md text-gray-500 font-sans">
                         {comment.createdAt && (
@@ -21,6 +41,14 @@ const Comment = ({ comment }) => {
                 <p className="text-lg text-white font-sans">
                     {comment?.content}
                 </p>
+                {user && comment && user?.uid === comment?.user_id && (
+                    <button
+                        onClick={onDelClick}
+                        className="hover:text-primary focus:outline-none absolute text-md text-gray-100 top-0 right-0"
+                    >
+                        <FontAwesomeIcon icon={faTrash} />
+                    </button>
+                )}
             </div>
         </div>
     )

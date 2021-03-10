@@ -89,7 +89,7 @@ const Checkout = () => {
 
             movie && (await userRef.set(userMovie))
 
-            toast((t) => <PaymentToast />)
+            toast((t) => <PaymentToast t={t} />)
         } else {
             toast.error('Please enter valid info')
         }

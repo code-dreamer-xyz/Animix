@@ -17,6 +17,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlay } from '@fortawesome/free-solid-svg-icons'
 import MoviePlayer from '../components/ui/MoviePlayer'
 import Modal from '../components/ui/Modal'
+import toast from 'react-hot-toast'
 
 export const getStaticPaths: GetStaticPaths = async () => {
     const snapshot = await firestore.collection('movies').get()
@@ -37,10 +38,15 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 export const getStaticProps = async ({ params }) => {
     const id = params.id
+    let movie
 
-    const movieRef = await firestore.collection('movies').doc(id).get()
+    try {
+        const movieRef = await firestore.collection('movies').doc(id).get()
 
-    const movie = movieRef.data()
+        movie = movieRef.data()
+    } catch (error) {
+        toast.error(error.message)
+    }
 
     return {
         props: { movie },

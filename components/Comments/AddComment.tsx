@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import React, { useContext, useState } from 'react'
+import toast from 'react-hot-toast'
 import { UserContext } from '../../lib/context'
 import { auth, firestore, serverTimestamp } from '../../lib/firebase'
 import Avatar from '../ui/Avatar'
@@ -27,7 +28,13 @@ const AddComment = ({ movie_id }) => {
             createdAt: serverTimestamp(),
         }
 
-        await ref.set(data)
+        setContent('')
+
+        try {
+            await ref.set(data)
+        } catch (error) {
+            toast.error(error.message)
+        }
     }
 
     return (
@@ -41,6 +48,7 @@ const AddComment = ({ movie_id }) => {
                             placeholder="Add a Comment"
                             className="bg-transparent border-b-2 border-gray-600 py- px-2 text-white"
                             onChange={(e) => setContent(e.target.value)}
+                            value={content}
                         />
                     </form>
                 </>

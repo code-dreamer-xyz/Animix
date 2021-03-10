@@ -18,7 +18,6 @@ const Login = () => {
             await auth.signInWithPopup(googleAuthProvider)
             toast.success('login success 🤩')
         } catch (error) {
-            console.log(error.message)
             toast.error('login failed 🙁')
         }
     }
