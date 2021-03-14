@@ -50,7 +50,7 @@ const UserDashboard = () => {
         <WithAuth>
             <motion.section
                 {...pageAnimation}
-                className="min-h-screen bg-theme flex items-center justify-items-start py-20"
+                className="min-h-screen bg-theme flex items-center justify-items-start 2xl:px-0 px-4 py-20"
             >
                 <div className="max-w-screen-2xl mx-auto w-full mt-20">
                     {loading && <Loader />}
@@ -67,7 +67,7 @@ const UserDashboard = () => {
                             >
                                 My Movies :
                             </motion.h2>
-                            <div className="grid grid-cols-3 gap-6 ">
+                            <div className="grid xl:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-6 ">
                                 {!userMovies && (
                                     <p className="text-white">Loading...</p>
                                 )}

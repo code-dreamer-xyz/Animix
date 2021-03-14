@@ -99,7 +99,7 @@ const Checkout = () => {
         <WithAuth>
             <motion.section
                 {...pageAnimation}
-                className="min-h-screen bg-theme flex items-center"
+                className="min-h-screen bg-theme flex items-center px-4 2xl:px-0"
             >
                 {loading && <Loader />}
                 {!loading && movieExists && (

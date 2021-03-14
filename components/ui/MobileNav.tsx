@@ -1,13 +1,17 @@
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import React from 'react'
-import { slideUpVariants, staggerChildren } from '../../helpers/animation'
 
 import { signOut } from '../../lib/firebase'
 import Avatar from './Avatar'
 import Button from './Button'
 
-const MobileNav = ({ routes, user, userImg = '', username = '' }) => {
+const MobileNav = ({ routes, user, userImg = '', username = '', closeNav }) => {
+    const onSignOut = () => {
+        signOut()
+        closeNav()
+    }
+
     return (
         <motion.ul
             initial={{ opacity: 0 }}
@@ -29,6 +33,7 @@ const MobileNav = ({ routes, user, userImg = '', username = '' }) => {
                     <motion.li
                         whileTap={{ scale: 0.9 }}
                         className="text-xl mb-4"
+                        onClick={() => closeNav()}
                     >
                         <Link href="/dashboard">
                             <a className="text-primary text-2xl cursor-pointer font-poppins font-bold ">
@@ -43,6 +48,7 @@ const MobileNav = ({ routes, user, userImg = '', username = '' }) => {
                     whileTap={{ scale: 0.9 }}
                     className="text-2xl my-4"
                     key={path}
+                    onClick={() => closeNav()}
                 >
                     <Link href={path}>
                         <a className="text-primary cursor-pointer font-poppins font-bold ">
@@ -52,11 +58,14 @@ const MobileNav = ({ routes, user, userImg = '', username = '' }) => {
                 </motion.li>
             ))}
             {!user && (
-                <Button>
+                <button
+                    className="focus:outline-none py-2 px-6 bg-primary text-sans sm:text-xl text-lg text-white font-bold rounded"
+                    onClick={() => closeNav()}
+                >
                     <Link href="/login">
                         <a className="text-white">Log In</a>
                     </Link>
-                </Button>
+                </button>
             )}
 
             {user && (
@@ -64,7 +73,7 @@ const MobileNav = ({ routes, user, userImg = '', username = '' }) => {
                     <Button>
                         <a
                             className="text-white cursor-pointer font-poppins font-bold"
-                            onClick={signOut}
+                            onClick={onSignOut}
                         >
                             SignOut
                         </a>

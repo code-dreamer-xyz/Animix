@@ -20,6 +20,8 @@ const Navbar: React.FC = () => {
     const { user, userProfile } = useContext(UserContext)
     const [navIsOpen, setNavOpen] = useState(false)
 
+    const closeNav = () => setNavOpen(false)
+
     const routes = [
         {
             path: '/',
@@ -116,6 +118,7 @@ const Navbar: React.FC = () => {
                         user={user}
                         userImg={userProfile?.photoURL}
                         username={userProfile?.userName}
+                        closeNav={closeNav}
                     />
                 )}
             </nav>
