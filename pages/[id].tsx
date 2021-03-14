@@ -9,7 +9,7 @@ import Link from 'next/link'
 import {
     slideUpVariants,
     staggerChildren,
-    itemVariants,
+    slideToLeftVariants,
 } from '../helpers/animation'
 import { motion } from 'framer-motion'
 import { useState } from 'react'
@@ -18,6 +18,7 @@ import { faPlay } from '@fortawesome/free-solid-svg-icons'
 import MoviePlayer from '../components/ui/MoviePlayer'
 import Modal from '../components/ui/Modal'
 import toast from 'react-hot-toast'
+import Image from 'next/image'
 
 export const getStaticPaths: GetStaticPaths = async () => {
     const snapshot = await firestore.collection('movies').get()
@@ -119,17 +120,17 @@ const MovieDetail = ({ movie }) => {
                         </motion.div>
                     </motion.div>
                     <motion.div
-                        variants={itemVariants}
+                        variants={slideToLeftVariants}
                         className="justify-self-end relative"
                     >
-                        <img
+                        <Image
                             src={movie.img}
                             width={400}
                             height={500}
                             className="rounded-md"
                         />
                         <button
-                            className="text-2xl text-primary py-4 px-6 rounded-full absolute top-1/2 left-1/2 transform -translate-x-1/2 bg-white -translate-y-1/2"
+                            className="focus:outline-none text-2xl text-primary py-4 px-6 rounded-full absolute top-1/2 left-1/2 transform -translate-x-1/2 bg-white -translate-y-1/2"
                             onClick={() => setIsOpen(true)}
                         >
                             <FontAwesomeIcon icon={faPlay} />

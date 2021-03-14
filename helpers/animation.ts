@@ -1,15 +1,3 @@
-export const animateUp = {
-    transition: { duration: 2, delay: 1, ease: 'easeOut' },
-    initial: { opacity: 0, y: 20 },
-    animate: { opacity: 1, y: 0 },
-}
-
-export const animateFade = {
-    transition: { duration: 2, delay: 1, ease: 'easeOut' },
-    initial: { opacity: 0 },
-    animate: { opacity: 1 },
-}
-
 export const scaleUp = {
     exit: {
         opacity: 0,
@@ -22,22 +10,6 @@ export const scaleUp = {
         scale: 1,
         x: 0,
         transition: { duration: 0.5, ease: [0.48, 0.15, 0.25, 0.96] },
-    },
-}
-
-export const fadeInVariant = {
-    visible: {
-        opacity: 1,
-        transition: {
-            when: 'beforeChildren',
-            staggerChildren: 0.3,
-        },
-    },
-    hidden: {
-        opacity: 0,
-        transition: {
-            when: 'afterChildren',
-        },
     },
 }
 
@@ -55,22 +27,6 @@ export const pageAnimation = {
     },
     exit: {
         opacity: 0,
-    },
-}
-
-export const itemVariants = {
-    initial: { scale: 1.4, x: 50, opacity: 0 },
-    enter: {
-        scale: 1,
-        x: 0,
-        opacity: 1,
-        transition: { duration: 0.5, ease: [0.48, 0.15, 0.25, 0.96] },
-    },
-    exit: {
-        scale: 0.6,
-        x: 100,
-        opacity: 0,
-        transition: { duration: 0.2, ease: [0.48, 0.15, 0.25, 0.96] },
     },
 }
 
@@ -98,6 +54,22 @@ export const slideDownVariants = {
     },
     enter: {
         y: 0,
+        opacity: 1,
+        transition: {
+            duration: 0.5,
+            ease: 'easeInOut',
+        },
+    },
+}
+
+export const slideToLeftVariants = {
+    exit: {
+        x: 100,
+        opacity: 0,
+        transition: { duration: 0.5, ease: 'easeInOut' },
+    },
+    enter: {
+        x: 0,
         opacity: 1,
         transition: {
             duration: 0.5,

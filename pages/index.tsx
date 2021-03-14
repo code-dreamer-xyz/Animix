@@ -34,7 +34,7 @@ const Home = ({ movies }) => {
             animate="enter"
             exit="exit"
             style={{ backgroundImage: `url("/bg.jpg")` }}
-            className="relative overflow-x-hidden bg-cover  min-h-screen"
+            className="relative overflow-x-hidden bg-cover lg:bg-center min-h-screen"
         >
             <div className="absolute  min-h-screen w-full top-0 left-0 bg-overlay 2xl:px-0 px-4">
                 <div className="h-full max-w-screen-2xl min-h-screen mx-auto 2xl:block flex flex-col justify-center xl:space-y-6 space-y-12 py-20 2xl:py-0">
@@ -69,7 +69,7 @@ const Home = ({ movies }) => {
                     </div>
                     <div
                         className="slider-container 
-                    z-20 md:max-w-screen-lg  
+                     md:max-w-screen-lg  
                     self-center 2xl:absolute 
                     2xl:top-2/4 
                     2xl:transform 2xl:-translate-y-1/2 2xl:-right-12"

@@ -1,4 +1,3 @@
-import { faSnapchat } from '@fortawesome/free-brands-svg-icons'
 import { useEffect, useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 
