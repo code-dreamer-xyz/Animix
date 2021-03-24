@@ -1,7 +1,7 @@
 import Button from '../components/ui/Button'
 
 import CommentList from '../components/Comments/CommentList'
-import { GetStaticPaths } from 'next'
+import { GetStaticPaths, GetStaticProps } from 'next'
 import { firestore } from '../lib/firebase'
 
 import { useCollection } from 'react-firebase-hooks/firestore'
@@ -37,8 +37,8 @@ export const getStaticPaths: GetStaticPaths = async () => {
     }
 }
 
-export const getStaticProps = async ({ params }) => {
-    const id = params.id
+export const getStaticProps: GetStaticProps = async ({ params }) => {
+    const id = typeof params.id === 'string' ? params.id : params.id[0]
     let movie
 
     try {

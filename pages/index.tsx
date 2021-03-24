@@ -6,8 +6,9 @@ import ImgSlider from '../components/ImgSlider'
 import Button from '../components/ui/Button'
 import { slideUpVariants, staggerChildren, scaleUp } from '../helpers/animation'
 import { firestore } from '../lib/firebase'
+import { GetStaticProps } from 'next'
 
-export const getStaticProps = async () => {
+export const getStaticProps: GetStaticProps = async () => {
     const movies = []
 
     try {
