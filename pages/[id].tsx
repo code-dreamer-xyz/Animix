@@ -113,7 +113,7 @@ const MovieDetail = ({ movie }) => {
                         </motion.p>
                         <motion.div variants={slideUpVariants}>
                             <Button>
-                                <Link href={`checkout/${movie.id}`}>
+                                <Link href={`/checkout/${movie.id}`}>
                                     <a>Buy</a>
                                 </Link>
                             </Button>

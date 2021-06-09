@@ -6,17 +6,21 @@ service cloud.firestore {
      allow read
      }
      
+    match /comments/{commentId}{
+      allow read;
+    }
+
      match /users/{userId}{
      allow read: if request.auth.uid == userId
      }
      
      match /users/{userId}/comments/{commentId} {
      allow read;
-     allow create: if request.auth.id == userId;
-     allow delete: if request.auth.uid == commentId;
+     allow write: if request.auth.uid == userId;
+    
      }
      
-      match /users/{userId}/user_movies/{userMoviesId} {
+    match /users/{userId}/user_movies/{userMoviesId} {
      allow read, write: if request.auth.uid == userId;
      
      
