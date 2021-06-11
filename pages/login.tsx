@@ -9,14 +9,18 @@ import {
     staggerChildren,
 } from '../helpers/animation'
 import { motion } from 'framer-motion'
+import { useRouter } from 'next/router'
 
 const Login = () => {
     const { user } = useContext(UserContext)
+
+    const router = useRouter()
 
     const signInWithGoogle = async () => {
         try {
             await auth.signInWithPopup(googleAuthProvider)
             toast.success('login success 🤩')
+            router.back()
         } catch (error) {
             toast.error('login failed 🙁')
         }

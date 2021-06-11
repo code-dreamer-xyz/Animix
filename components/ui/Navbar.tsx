@@ -31,14 +31,10 @@ const Navbar: React.FC = () => {
             path: '/movies',
             page: 'Movies',
         },
-        {
-            path: '/contact',
-            page: 'Contact',
-        },
     ]
 
     return (
-        <header className=" absolute z-10  top-0 w-full 2xl:px-0 px-4 py-4">
+        <header className="absolute z-50  top-0 w-full 2xl:px-0 px-2 py-1">
             <nav className="max-w-screen-2xl mx-auto flex justify-between items-center">
                 <Link href="/">
                     <div>
