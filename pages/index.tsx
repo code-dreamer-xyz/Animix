@@ -2,11 +2,11 @@ import { motion } from 'framer-motion'
 import Link from 'next/link'
 import toast from 'react-hot-toast'
 import ImgSlider from '../components/ImgSlider'
-
 import Button from '../components/ui/Button'
 import { slideUpVariants, staggerChildren, scaleUp } from '../helpers/animation'
 import { firestore } from '../lib/firebase'
 import { GetStaticProps } from 'next'
+import Image from 'next/image'
 
 export const getStaticProps: GetStaticProps = async () => {
     const movies = []
@@ -34,12 +34,20 @@ const Home = ({ movies }) => {
             initial="exit"
             animate="enter"
             exit="exit"
-            style={{ backgroundImage: `url("/bg.jpg")` }}
             className="relative overflow-x-hidden bg-cover lg:bg-center min-h-screen"
         >
             <div className="absolute h-full min-h-screen w-full top-0 z-20 left-0 bg-overlay " />
+            <div className="absolute h-full w-full top-0 z-10 left-0">
+                <Image
+                    alt="Home bg image"
+                    src="/bg.jpg"
+                    layout="fill"
+                    objectFit="cover"
+                    objectPosition="center"
+                />
+            </div>
 
-            <div className="z-40 2xl:px-0 px-2 relative h-full max-w-screen-2xl min-h-screen mx-auto 2xl:block flex flex-col justify-center xl:space-y-6 space-y-12 py-20 2xl:py-0">
+            <div className="z-40 2xl:px-0 px-2 relative h-full max-w-screen-2xl  min-h-screen mx-auto 2xl:block flex flex-col justify-center xl:space-y-6 space-y-12 py-20 2xl:py-0">
                 <div className="flex items-center 2xl:min-h-screen">
                     <motion.div
                         initial="exit"
@@ -50,7 +58,7 @@ const Home = ({ movies }) => {
                     >
                         <motion.h1
                             variants={slideUpVariants}
-                            className="sm:mb-6 mb-4 text-white font-bold text-white md:text-8xl font-poppins sm:text-5xl text-4xl"
+                            className="sm:mb-6 mb-4 text-white font-bold text-white md:text-6xl font-poppins sm:text-5xl text-4xl"
                         >
                             Anime Movies <br /> Night
                         </motion.h1>
@@ -71,10 +79,10 @@ const Home = ({ movies }) => {
                 </div>
                 <div
                     className="slider-container 
-                     md:max-w-screen-lg  
-                    self-center 2xl:absolute 
-                    2xl:top-2/4 
-                    2xl:transform 2xl:-translate-y-1/2 2xl:-right-12"
+                     md:max-w-screen-md 
+                    self-center xl:absolute 
+                    xl:top-2/4 
+                    xl:transform xl:-translate-y-1/2 xl:-right-12"
                 >
                     <motion.div variants={scaleUp}>
                         <ImgSlider movies={movies ? movies : null} />

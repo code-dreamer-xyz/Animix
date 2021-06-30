@@ -12,7 +12,7 @@ const Button: React.FC = ({ children }) => {
                 },
             }}
             whileTap={{ scale: 0.9 }}
-            className="focus:outline-none py-2 px-6 bg-primary text-sans sm:text-xl text-lg text-white font-bold rounded"
+            className="focus:outline-none py-2 px-4 bg-primary text-sans text-md text-white font-bold rounded"
         >
             {children}
         </motion.button>
