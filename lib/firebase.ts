@@ -1,7 +1,7 @@
-import firebase from 'firebase/app'
-import 'firebase/auth'
-import 'firebase/firestore'
-import 'firebase/storage'
+import { initializeApp } from 'firebase/app'
+import { getAuth, GoogleAuthProvider, signOut } from 'firebase/auth'
+import { getFirestore } from 'firebase/firestore'
+import { getStorage } from 'firebase/storage'
 import toast from 'react-hot-toast'
 
 const firebaseConfig = {
@@ -13,16 +13,14 @@ const firebaseConfig = {
     appId: `${process.env.NEXT_PUBLIC_FIREBASE_APP_ID}`,
 }
 
-if (!firebase.apps.length) {
-    firebase.initializeApp(firebaseConfig)
-}
+const app = initializeApp(firebaseConfig)
 
-export const auth = firebase.auth()
-export const googleAuthProvider = new firebase.auth.GoogleAuthProvider()
+export const auth = getAuth(app)
+export const googleAuthProvider = new GoogleAuthProvider()
 
-export const firestore = firebase.firestore()
+export const firestore = getFirestore(app)
 
-export const storage = firebase.storage()
+export const storage = getStorage(app)
 
 export const commentToJSON = (doc) => {
     const data = doc.data()
@@ -32,13 +30,12 @@ export const commentToJSON = (doc) => {
     }
 }
 
-export const signOut = () => {
-    try {
-        auth.signOut()
-        toast.success('successfully signed out')
-    } catch (error) {
-        toast.error('signing out failed')
-    }
+export const sign_Out = () => {
+    signOut(auth)
+        .then(() => {
+            toast.success('successfully signed out')
+        })
+        .catch((err) => {
+            toast.error('signing out failed')
+        })
 }
-
-export const serverTimestamp = firebase.firestore.FieldValue.serverTimestamp
