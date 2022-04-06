@@ -20,11 +20,21 @@ import Modal from '../components/ui/Modal'
 import toast from 'react-hot-toast'
 import Image from 'next/image'
 import NotFound from './404'
+import {
+    collection,
+    collectionGroup,
+    doc,
+    getDoc,
+    getDocs,
+    orderBy,
+    query,
+    where,
+} from 'firebase/firestore'
 
 export const getStaticPaths: GetStaticPaths = async () => {
-    const snapshot = await firestore.collection('movies').get()
-
-    const paths = snapshot.docs.map((doc) => {
+    const q = query(collection(firestore, 'movies'), where('price', '>', 25))
+    const moviesSnapshot = await getDocs(q)
+    const paths = moviesSnapshot.docs.map((doc) => {
         const { id } = doc.data()
 
         return {
@@ -43,10 +53,11 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     let movie
 
     try {
-        const movieRef = await firestore.collection('movies').doc(id).get()
+        const movieRef = doc(firestore, 'movies', id)
+        const movieSnapshot = await getDoc(movieRef)
 
-        if (movieRef.data()) {
-            movie = movieRef.data()
+        if (movieSnapshot.exists()) {
+            movie = movieSnapshot.data()
         } else {
             movie = null
         }
@@ -60,10 +71,11 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 }
 
 const MovieDetail = ({ movie }) => {
-    const commentsQuery = firestore
-        .collectionGroup('comments')
-        .where('movie_id', '==', movie ? movie.id : '')
-        .orderBy('createdAt', 'desc')
+    const commentsQuery = query(
+        collectionGroup(firestore, 'comments'),
+        where('movie_id', '==', movie.id),
+        orderBy('createdAt', 'desc')
+    )
 
     const [realtimeComments] = useCollection(commentsQuery)
 
