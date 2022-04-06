@@ -1,3 +1,11 @@
+import {
+    collection,
+    doc,
+    getDoc,
+    getDocs,
+    query,
+    setDoc,
+} from 'firebase/firestore'
 import { useEffect, useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 
@@ -10,27 +18,25 @@ export function useUserData() {
     useEffect(() => {
         let unsubscribe
 
-        if (user) {
-            const userRef = firestore.collection('users').doc(user.uid)
-            userRef.get().then((snapshot) => {
-                if (snapshot.exists) {
-                    unsubscribe = userRef.onSnapshot((doc) => {
-                        setUserProfile(doc.data())
-                    })
+        const getUser = async () => {
+            if (user) {
+                const docSnap = await getDoc(doc(firestore, 'users', user.uid))
+
+                if (docSnap.exists()) {
+                    unsubscribe = setUserProfile(docSnap.data())
                 } else {
                     const newUser = {
                         photoURL: user.photoURL,
                         userName: user.displayName,
                     }
-
-                    userRef.set(newUser)
-
+                    setDoc(docSnap, newUser)
                     setUserProfile(newUser)
                 }
-            })
-        } else {
-            setUserProfile(null)
+            } else {
+                setUserProfile(null)
+            }
         }
+        getUser()
 
         return unsubscribe
     }, [user])
@@ -41,12 +47,9 @@ export function useUserData() {
 export async function getUserMovies(uid) {
     const userMovies = []
 
-    const userMoviesRef = firestore
-        .collection('users')
-        .doc(uid)
-        .collection('user_movies')
+    const q = query(collection(firestore, 'users', uid, 'user_movies'))
 
-    const moviesData = await userMoviesRef.get()
+    const moviesData = await getDocs(q)
 
     moviesData?.forEach((movie) => userMovies.push(movie.data()))
 
@@ -54,13 +57,10 @@ export async function getUserMovies(uid) {
 }
 
 export const moviePurshased = async (id, uid) => {
-    const userMovieRef = firestore
-        .collection('users')
-        .doc(uid)
-        .collection('user_movies')
-        .doc(id)
-    const movie = await userMovieRef.get()
-    if (movie.exists) {
+    const docRef = doc(firestore, 'users', uid, 'user_movies', id)
+
+    const movieSnapshot = await getDoc(docRef)
+    if (movieSnapshot.exists()) {
         return true
     } else {
         return false

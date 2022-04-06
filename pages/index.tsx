@@ -7,18 +7,18 @@ import { slideUpVariants, staggerChildren, scaleUp } from '../helpers/animation'
 import { firestore } from '../lib/firebase'
 import { GetStaticProps } from 'next'
 import Image from 'next/image'
+import { collection, getDocs, query, where } from 'firebase/firestore'
 
 export const getStaticProps: GetStaticProps = async () => {
     const movies = []
 
     try {
-        const moviesData = await firestore
-            .collection('movies')
-            .where('price', '>', 25)
-            .limit(4)
-            .get()
-
-        moviesData.forEach((movie) => movies.push(movie.data()))
+        const q = query(
+            collection(firestore, 'movies'),
+            where('price', '>', 25)
+        )
+        const moviesSnapshot = await getDocs(q)
+        moviesSnapshot.forEach((movie) => movies.push(movie.data()))
     } catch (error) {
         toast.error(error.message)
     }
@@ -58,7 +58,7 @@ const Home = ({ movies }) => {
                     >
                         <motion.h1
                             variants={slideUpVariants}
-                            className="sm:mb-6 mb-4 text-white font-bold text-white md:text-6xl font-poppins sm:text-5xl text-4xl"
+                            className="sm:mb-6 mb-4 font-bold text-white md:text-6xl font-poppins sm:text-5xl text-4xl"
                         >
                             Anime Movies <br /> Night
                         </motion.h1>
