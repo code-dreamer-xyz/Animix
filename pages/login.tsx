@@ -10,6 +10,7 @@ import {
 } from '../helpers/animation'
 import { motion } from 'framer-motion'
 import { useRouter } from 'next/router'
+import { signInWithPopup } from 'firebase/auth'
 
 const Login = () => {
     const { user } = useContext(UserContext)
@@ -18,7 +19,7 @@ const Login = () => {
 
     const signInWithGoogle = async () => {
         try {
-            await auth.signInWithPopup(googleAuthProvider)
+            await signInWithPopup(auth, googleAuthProvider)
             toast.success('login success 🤩')
             router.back()
         } catch (error) {
