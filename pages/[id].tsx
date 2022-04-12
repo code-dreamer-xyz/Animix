@@ -1,11 +1,8 @@
 import Button from '../components/ui/Button'
-
 import CommentList from '../components/Comments/CommentList'
 import { GetStaticPaths, GetStaticProps } from 'next'
 import { firestore } from '../lib/firebase'
-
 import { useCollection } from 'react-firebase-hooks/firestore'
-import Link from 'next/link'
 import {
     slideUpVariants,
     staggerChildren,
@@ -122,20 +119,10 @@ const MovieDetail = ({ movie }) => {
                                 >
                                     {movie.desc}
                                 </motion.p>
-                                <motion.p
-                                    variants={slideUpVariants}
-                                    className="text-lg text-gray-500 font-sans mb-6"
-                                >
-                                    Price:
-                                    <span className="text-primary font-bold">
-                                        {movie.price}£
-                                    </span>
-                                </motion.p>
+
                                 <motion.div variants={slideUpVariants}>
                                     <Button>
-                                        <Link href={`/checkout/${movie.id}`}>
-                                            <a>Buy</a>
-                                        </Link>
+                                        <a>Watch</a>
                                     </Button>
                                 </motion.div>
                             </motion.div>
