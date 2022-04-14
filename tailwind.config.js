@@ -9,6 +9,7 @@ module.exports = {
     theme: {
         extend: {
             fontFamily: {
+                syne: ['Syne', ...defaultTheme.fontFamily.sans],
                 poppins: ['Poppins', ...defaultTheme.fontFamily.sans],
                 sans: ['Open Sans', ...defaultTheme.fontFamily.sans],
             },

@@ -4,6 +4,7 @@ import 'tailwindcss/tailwind.css'
 import { AppProps } from 'next/app'
 import '@fontsource/open-sans'
 import '@fontsource/poppins'
+import '@fontsource/syne/800.css'
 
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
