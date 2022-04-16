@@ -9,7 +9,7 @@ import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons'
 import { useContext } from 'react'
 import { UserContext } from '../../lib/context'
 import { useState } from 'react'
-import { auth, signOut } from '../../lib/firebase'
+import { auth, sign_Out } from '../../lib/firebase'
 
 import { motion } from 'framer-motion'
 import { Divide as Hamburger } from 'hamburger-react'
@@ -35,16 +35,11 @@ const Navbar: React.FC = () => {
 
     return (
         <header className="absolute z-50  top-0 w-full 2xl:px-0 px-2 py-1">
-            <nav className="max-w-screen-2xl mx-auto flex justify-between items-center">
+            <nav className="max-w-screen-xl mx-auto flex justify-between items-center">
                 <Link href="/">
-                    <div>
-                        <Image
-                            src="/logo.png"
-                            alt="logo"
-                            width={150}
-                            height={50}
-                        />
-                    </div>
+                    <a className="font-syne text-white text-xl">
+                        Ani<span className="text-primary">Mix</span>
+                    </a>
                 </Link>
                 <ul className=" justify-between md:flex hidden">
                     {routes.map(({ path, page }) => (
@@ -96,7 +91,7 @@ const Navbar: React.FC = () => {
                                     </Link>
                                 </button>
 
-                                <button onClick={signOut}>Log Out</button>
+                                <button onClick={sign_Out}>Log Out</button>
                             </div>
                         </div>
                     )}
