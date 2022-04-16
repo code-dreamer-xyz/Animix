@@ -1,6 +1,10 @@
 import { motion } from 'framer-motion'
 
-const Button: React.FC = ({ children }) => {
+type Props = {
+    circle?: boolean
+}
+
+const Button: React.FC<Props> = ({ children, circle = false }) => {
     return (
         <motion.button
             whileHover={{
@@ -12,7 +16,9 @@ const Button: React.FC = ({ children }) => {
                 },
             }}
             whileTap={{ scale: 0.9 }}
-            className="focus:outline-none py-2 px-4 bg-primary text-sans text-md text-white font-bold rounded"
+            className={`${
+                circle ? 'rounded-full' : 'rounded'
+            } focus:outline-none py-2 px-4 bg-primary text-sans text-md text-white font-bold`}
         >
             {children}
         </motion.button>
