@@ -6,6 +6,14 @@ html {
     background-color: #1f1f1f;
 }
 
+html,
+body,
+#__next,
+main,
+section {
+    height: 100%;
+}
+
 .ReactModal__Overlay.ReactModal__Overlay--after-open {
     z-index: 99999;
 }
