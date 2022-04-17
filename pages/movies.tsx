@@ -39,7 +39,10 @@ const Movies = ({ movies }) => {
                     {...pageAnimation}
                     className="min-h-screen bg-theme py-32"
                 >
-                    <div className="max-w-screen-2xl mx-auto">
+                    <h2 className="font-syne text-5xl text-white text-center">
+                        Movies
+                    </h2>
+                    <div className="max-w-screen-xl mx-auto">
                         <div className="mb-10 pl-2">
                             <Button>Filter</Button>
                         </div>
@@ -48,7 +51,7 @@ const Movies = ({ movies }) => {
                             animate="enter"
                             exit="exit"
                             variants={staggerChildren}
-                            className="grid gap-8 2xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 grid-cols-1 justify-items-center"
+                            className="grid gap-8 md:grid-cols-5 sm:grid-cols-3 grid-cols-1 justify-items-center"
                         >
                             {moviesCollection.map((movie) => (
                                 <div key={movie.id}>
