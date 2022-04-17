@@ -35,7 +35,7 @@ const Home = ({ movies }) => {
             initial="exit"
             animate="enter"
             exit="exit"
-            className="relative overflow-x-hidden bg-cover lg:bg-center pt-20"
+            className=" overflow-x-hidden bg-cover lg:bg-center pt-20"
         >
             <div className="absolute h-full w-full top-0 z-0 left-0 bg-gradient-to-r from-black " />
             <div
