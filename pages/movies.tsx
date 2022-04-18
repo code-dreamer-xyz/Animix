@@ -7,16 +7,13 @@ import Loader from '../components/ui/Loader'
 import { pageAnimation, staggerChildren } from '../helpers/animation'
 import { motion } from 'framer-motion'
 import toast from 'react-hot-toast'
-import { collection, getDocs, query, where } from 'firebase/firestore'
+import { collection, getDocs, query } from 'firebase/firestore'
 
 export const getStaticProps: GetStaticProps = async (context) => {
     const movies = []
 
     try {
-        const q = query(
-            collection(firestore, 'movies'),
-            where('price', '>', 25)
-        )
+        const q = query(collection(firestore, 'movies'))
         const moviesSnapshot = await getDocs(q)
         moviesSnapshot.forEach((movie) => movies.push(movie.data()))
     } catch (error) {

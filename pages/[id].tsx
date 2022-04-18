@@ -23,13 +23,13 @@ import {
     doc,
     getDoc,
     getDocs,
-    orderBy,
     query,
+    orderBy,
     where,
 } from 'firebase/firestore'
 
 export const getStaticPaths: GetStaticPaths = async () => {
-    const q = query(collection(firestore, 'movies'), where('price', '>', 25))
+    const q = query(collection(firestore, 'movies'))
     const moviesSnapshot = await getDocs(q)
     const paths = moviesSnapshot.docs.map((doc) => {
         const { id } = doc.data()
@@ -74,7 +74,7 @@ const MovieDetail = ({ movie }) => {
         orderBy('createdAt', 'desc')
     )
 
-    const [realtimeComments] = useCollection(commentsQuery)
+    const [realtimeComments, loading, error] = useCollection(commentsQuery)
 
     const comments = realtimeComments?.docs.map((doc) => doc.data())
 
@@ -90,9 +90,9 @@ const MovieDetail = ({ movie }) => {
                     initial="exit"
                     animate="enter"
                     exit="exit"
-                    className="min-h-screen bg-theme py-36 "
+                    className="h-full bg-theme py-36 "
                 >
-                    <div className="max-w-screen-2xl mx-auto  2xl:px-0 px-2">
+                    <div className="max-w-screen-xl mx-auto  2xl:px-0 px-2">
                         <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-12 mb-6">
                             <motion.div
                                 initial="exit"
