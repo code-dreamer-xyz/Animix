@@ -31,10 +31,10 @@ const Navbar: React.FC = () => {
             path: '/movies',
             page: 'Movies',
         },
-        {
-            path: '/blog',
-            page: 'Blog',
-        },
+        // {
+        //     path: '/blog',
+        //     page: 'Blog',
+        // },
     ]
 
     return (
@@ -107,7 +107,7 @@ const Navbar: React.FC = () => {
                     <Hamburger
                         toggled={navIsOpen}
                         toggle={() => setNavOpen(!navIsOpen)}
-                        color="#e63946"
+                        color="#fff"
                     />
                 </div>
                 {navIsOpen && (
