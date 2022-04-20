@@ -1,30 +1,30 @@
 .slick-slider {
-    width: 100%;
+  width: 100%;
 }
 
 .slick-dots li {
-    margin: 0 14px;
+  margin: 0 14px;
 }
 
 .slick-dots li.slick-active button::before {
-    color: white !important;
-    border: none !important;
-    opacity: 1 !important;
+  color: white !important;
+  border: none !important;
+  opacity: 1 !important;
 }
 
 .slick-dots li button::before {
-    font-size: 25px !important;
-    color: transparent !important;
-    border: 2px solid #fff !important;
-    border-radius: 50%;
-    opacity: 1;
+  font-size: 25px !important;
+  color: transparent !important;
+  border: 2px solid #fff !important;
+  border-radius: 50%;
+  opacity: 1;
 }
 
 @media screen and (max-width: 540px) {
-    .slider-container {
-        width: 600px;
-    }
-    .slick-dots li button::before {
-        font-size: 20px !important;
-    }
+  .slider-container {
+    width: 600px;
+  }
+  .slick-dots li button::before {
+    font-size: 20px !important;
+  }
 }

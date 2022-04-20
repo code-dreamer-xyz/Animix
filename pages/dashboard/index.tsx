@@ -1,10 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react'
 import MovieCard from '../../components/ui/MovieCard'
-
 import WithAuth from '../../components/WithAuth'
-
 import { getUserMovies } from '../../lib/hooks'
-
 import { UserContext } from '../../lib/context'
 import Loader from 'react-spinners/ClipLoader'
 import {
@@ -14,8 +11,6 @@ import {
     staggerChildren,
 } from '../../helpers/animation'
 import { motion } from 'framer-motion'
-import Modal from '../../components/ui/Modal'
-import MoviePlayer from '../../components/ui/MoviePlayer'
 
 const UserDashboard = () => {
     const { user } = useContext(UserContext)
@@ -116,10 +111,6 @@ const UserDashboard = () => {
                         </motion.div>
                     )}
                 </div>
-
-                <Modal modalIsOpen={isOpen} closeModal={closeModal}>
-                    <MoviePlayer url={currentPlayer} closeModal={closeModal} />
-                </Modal>
             </motion.section>
         </WithAuth>
     )

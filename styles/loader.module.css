@@ -1,19 +1,19 @@
 @keyframes spinner {
-    0% {
-        transform: rotate(0deg);
-    }
-    100% {
-        transform: rotate(360deg);
-    }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 .loader {
-    margin-top: 16px;
-    border-top: 10px solid #ec5990;
-    border-right: 10px solid rgba(194, 193, 193, 0.2);
-    border-bottom: 10px solid rgba(194, 193, 193, 0.2);
-    border-left: 10px solid rgba(194, 193, 193, 0.2);
-    animation: spinner 0.9s linear infinite;
-    border-radius: 50%;
-    width: 64px;
-    height: 64px;
+  margin-top: 16px;
+  border-top: 10px solid #ec5990;
+  border-right: 10px solid rgba(194, 193, 193, 0.2);
+  border-bottom: 10px solid rgba(194, 193, 193, 0.2);
+  border-left: 10px solid rgba(194, 193, 193, 0.2);
+  animation: spinner 0.9s linear infinite;
+  border-radius: 50%;
+  width: 64px;
+  height: 64px;
 }
