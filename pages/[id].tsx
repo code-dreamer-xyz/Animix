@@ -9,11 +9,6 @@ import {
     slideToLeftVariants,
 } from '../helpers/animation'
 import { motion } from 'framer-motion'
-import { useState } from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlay } from '@fortawesome/free-solid-svg-icons'
-import MoviePlayer from '../components/ui/MoviePlayer'
-import Modal from '../components/ui/Modal'
 import toast from 'react-hot-toast'
 import Image from 'next/image'
 import NotFound from './404'
@@ -27,6 +22,7 @@ import {
     orderBy,
     where,
 } from 'firebase/firestore'
+import ReactPlayer from 'react-player'
 
 export const getStaticPaths: GetStaticPaths = async () => {
     const q = query(collection(firestore, 'movies'))
@@ -78,10 +74,6 @@ const MovieDetail = ({ movie }) => {
 
     const comments = realtimeComments?.docs.map((doc) => doc.data())
 
-    const [isOpen, setIsOpen] = useState(false)
-
-    const closeModal = () => setIsOpen(false)
-
     return (
         <>
             {!movie && <NotFound />}
@@ -90,10 +82,10 @@ const MovieDetail = ({ movie }) => {
                     initial="exit"
                     animate="enter"
                     exit="exit"
-                    className="h-full bg-theme py-36 "
+                    className="h-full bg-theme py-20"
                 >
                     <div className="max-w-screen-xl mx-auto  2xl:px-0 px-2">
-                        <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-12 mb-6">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-20">
                             <motion.div
                                 initial="exit"
                                 animate="enter"
@@ -122,7 +114,7 @@ const MovieDetail = ({ movie }) => {
 
                                 <motion.div variants={slideUpVariants}>
                                     <Button>
-                                        <a>Watch</a>
+                                        <a href="#movie-player">Watch</a>
                                     </Button>
                                 </motion.div>
                             </motion.div>
@@ -136,22 +128,24 @@ const MovieDetail = ({ movie }) => {
                                     height={500}
                                     className="rounded-md"
                                 />
-                                <button
-                                    className="focus:outline-none text-2xl text-primary py-4 px-6 rounded-full absolute top-1/2 left-1/2 transform -translate-x-1/2 bg-white -translate-y-1/2"
-                                    onClick={() => setIsOpen(true)}
-                                >
-                                    <FontAwesomeIcon icon={faPlay} />
-                                </button>
                             </motion.div>
+                        </div>
+
+                        <h2 className="font-syne text-xl text-white mb-6">
+                            Full Movie:
+                        </h2>
+                        <div
+                            id="movie-player"
+                            className="max-w-screen-xl p-1 bg-primary drop-shadow-md rounded mx-auto mb-6"
+                        >
+                            <ReactPlayer
+                                width={'100%'}
+                                height={600}
+                                url={movie.trailer}
+                            />
                         </div>
                         <CommentList comments={comments} movie_id={movie.id} />
                     </div>
-                    <Modal modalIsOpen={isOpen} closeModal={closeModal}>
-                        <MoviePlayer
-                            url={movie.trailer}
-                            closeModal={closeModal}
-                        />
-                    </Modal>
                 </motion.section>
             )}
         </>
