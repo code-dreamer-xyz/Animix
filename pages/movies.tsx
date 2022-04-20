@@ -34,13 +34,14 @@ const Movies = ({ movies }) => {
             {moviesCollection && moviesCollection.length > 0 && (
                 <motion.section
                     {...pageAnimation}
-                    className="min-h-screen bg-theme py-32"
+                    className="h-full bg-theme py-32"
                 >
-                    <h2 className="font-syne text-5xl text-white text-center">
-                        Movies
-                    </h2>
-                    <div className="max-w-screen-xl mx-auto">
-                        <div className="mb-10 pl-2">
+                    <div className="max-w-screen-xl px-2 mx-auto">
+                        <div className="mb-6 flex md:flex-col flex-row md:space-y-4 justify-between md:items-start items-center">
+                            <h2 className="font-syne md:text-5xl text-3xl md:self-center text-white ">
+                                Movies
+                            </h2>
+
                             <Button>Filter</Button>
                         </div>
                         <motion.div
@@ -48,7 +49,7 @@ const Movies = ({ movies }) => {
                             animate="enter"
                             exit="exit"
                             variants={staggerChildren}
-                            className="grid gap-8 md:grid-cols-5 sm:grid-cols-3 grid-cols-1 justify-items-center"
+                            className="grid xl:gap-8 gap-x-4 gap-y-8 xl:grid-cols-5 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 justify-items-center"
                         >
                             {moviesCollection.map((movie) => (
                                 <div key={movie.id}>

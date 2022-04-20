@@ -51,8 +51,8 @@ const Home = ({ movies }) => {
                 />
             </div>
 
-            <div className="relative max-w-screen-xl mx-auto py-6">
-                <div className="flex flex-col justify-center">
+            <div className="relative max-w-screen-xl h-full mx-auto py-6 px-2">
+                <div className="flex flex-col justify-center h-full">
                     <motion.div
                         initial="exit"
                         animate="enter"
@@ -62,21 +62,21 @@ const Home = ({ movies }) => {
                     >
                         <motion.h1
                             variants={slideUpVariants}
-                            className="sm:mb-6 mb-4 font-bolder leading-loose text-white md:text-7xl font-syne sm:text-5xl text-4xl"
+                            className="sm:mb-6 mb-4 font-bolder text-white md:text-7xl font-syne sm:text-5xl text-4xl"
                         >
                             Unlimited <br />
                             <span className="text-primary">Anime</span> Movies
                         </motion.h1>
                         <motion.p
                             variants={slideUpVariants}
-                            className="mb-12 font-sans text-gray-100   w-1/2 "
+                            className="mb-12 font-sans text-gray-100   md:w-1/2 "
                         >
                             un testo segnaposto utilizzato nel settore della
                             tipografia e della stampa. Lorem Ipsum è considerato
                             il testo segnaposto.
                         </motion.p>
 
-                        <div className="flex items-center space-x-6 mt-auto">
+                        <div className="flex md:items-center md:flex-row flex-col md:space-x-6 md:space-y-0 space-y-6 mt-auto">
                             <div className="slider-container md:max-w-xl ">
                                 <motion.div variants={scaleUp}>
                                     <ImgSlider
