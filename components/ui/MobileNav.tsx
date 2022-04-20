@@ -2,13 +2,13 @@ import { motion } from 'framer-motion'
 import Link from 'next/link'
 import React from 'react'
 
-import { signOut } from '../../lib/firebase'
+import { sign_Out } from '../../lib/firebase'
 import Avatar from './Avatar'
 import Button from './Button'
 
 const MobileNav = ({ routes, user, userImg = '', username = '', closeNav }) => {
     const onSignOut = () => {
-        signOut()
+        sign_Out()
         closeNav()
     }
 
@@ -20,7 +20,7 @@ const MobileNav = ({ routes, user, userImg = '', username = '', closeNav }) => {
                 duration: 0.5,
                 ease: 'easeInOut',
             }}
-            className="flex flex-col items-center w-screen h-screen justify-center absolute top-0 left-0 z-20 bg-white"
+            className="flex flex-col items-center w-screen h-screen justify-center absolute top-0 left-0 z-20 bg-primary"
         >
             {user && (
                 <>
@@ -36,7 +36,7 @@ const MobileNav = ({ routes, user, userImg = '', username = '', closeNav }) => {
                         onClick={() => closeNav()}
                     >
                         <Link href="/dashboard">
-                            <a className="text-primary text-2xl cursor-pointer font-poppins font-bold ">
+                            <a className="text-white text-2xl cursor-pointer font-poppins font-bold ">
                                 Dashboard
                             </a>
                         </Link>
@@ -51,7 +51,7 @@ const MobileNav = ({ routes, user, userImg = '', username = '', closeNav }) => {
                     onClick={() => closeNav()}
                 >
                     <Link href={path}>
-                        <a className="text-primary cursor-pointer font-poppins font-bold ">
+                        <a className="text-white cursor-pointer font-poppins font-bold ">
                             {page}
                         </a>
                     </Link>
@@ -59,11 +59,11 @@ const MobileNav = ({ routes, user, userImg = '', username = '', closeNav }) => {
             ))}
             {!user && (
                 <button
-                    className="focus:outline-none py-2 px-6 bg-primary text-sans sm:text-xl text-lg text-white font-bold rounded"
+                    className="focus:outline-none py-2 px-6 bg-white text-sans sm:text-xl text-lg  font-bold rounded"
                     onClick={() => closeNav()}
                 >
                     <Link href="/login">
-                        <a className="text-white">Log In</a>
+                        <a className="text-primary">Log In</a>
                     </Link>
                 </button>
             )}
@@ -72,7 +72,7 @@ const MobileNav = ({ routes, user, userImg = '', username = '', closeNav }) => {
                 <>
                     <Button>
                         <a
-                            className="text-white cursor-pointer font-poppins font-bold"
+                            className="text-primary cursor-pointer font-poppins font-bold"
                             onClick={onSignOut}
                         >
                             SignOut
