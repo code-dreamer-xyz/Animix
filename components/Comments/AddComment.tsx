@@ -1,8 +1,9 @@
+import { collection, doc, serverTimestamp, setDoc } from 'firebase/firestore'
 import Link from 'next/link'
 import React, { useContext, useState } from 'react'
 import toast from 'react-hot-toast'
 import { UserContext } from '../../lib/context'
-import { auth, firestore, serverTimestamp } from '../../lib/firebase'
+import { auth, firestore } from '../../lib/firebase'
 import Avatar from '../ui/Avatar'
 import Button from '../ui/Button'
 
@@ -13,14 +14,11 @@ const AddComment = ({ movie_id }) => {
   const onSubmit = async (e) => {
     e.preventDefault()
     const uid = auth.currentUser.uid
-    const ref = firestore
-      .collection('users')
-      .doc(uid)
-      .collection('comments')
-      .doc()
+
+    const commentRef = doc(collection(firestore, 'users', uid, 'comments'))
 
     const data = {
-      id: ref.id,
+      id: commentRef,
       content,
       movie_id,
       user_id: uid,
@@ -31,7 +29,7 @@ const AddComment = ({ movie_id }) => {
     setContent('')
 
     try {
-      await ref.set(data)
+      await setDoc(commentRef, data)
     } catch (error) {
       toast.error(error.message)
     }

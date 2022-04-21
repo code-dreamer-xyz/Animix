@@ -6,17 +6,15 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrash } from '@fortawesome/free-solid-svg-icons'
 import { auth, firestore } from '../../lib/firebase'
 import toast from 'react-hot-toast'
+import { deleteDoc, doc } from 'firebase/firestore'
 
 const Comment = ({ comment }) => {
   const { user } = useContext(UserContext)
   const onDelClick = async () => {
-    const commentRef = firestore
-      .collection('users')
-      .doc(auth.currentUser.uid)
-      .collection('comments')
-      .doc(comment.id)
+    const { uid } = auth.currentUser
+
     try {
-      await commentRef.delete()
+      await deleteDoc(doc(firestore, 'users', uid, 'comments', comment.id))
       toast.success('comment deleted ✅')
     } catch (error) {
       toast.error('Failed deleting the comment')
