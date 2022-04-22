@@ -26,9 +26,9 @@ const MobileNav = ({ routes, user, userImg = '', username = '', closeNav }) => {
         <>
           <div className="flex flex-col items-center space-y-4 mb-8">
             <Avatar img={userImg} />
-            <p className="text-gray-800 font-poppins font-bold">{username}</p>
+            <p className="text-white font-poppins font-bold">{username}</p>
           </div>
-          <motion.li
+          {/* <motion.li
             whileTap={{ scale: 0.9 }}
             className="text-xl mb-4"
             onClick={() => closeNav()}
@@ -38,13 +38,13 @@ const MobileNav = ({ routes, user, userImg = '', username = '', closeNav }) => {
                 Dashboard
               </a>
             </Link>
-          </motion.li>
+          </motion.li> */}
         </>
       )}
       {routes.map(({ path, page }) => (
         <motion.li
           whileTap={{ scale: 0.9 }}
-          className="text-2xl my-4"
+          className="text-lg my-4"
           key={path}
           onClick={() => closeNav()}
         >
@@ -57,7 +57,7 @@ const MobileNav = ({ routes, user, userImg = '', username = '', closeNav }) => {
       ))}
       {!user && (
         <button
-          className="focus:outline-none py-2 px-6 bg-white text-sans sm:text-xl text-lg  font-bold rounded"
+          className="focus:outline-none py-2 px-6 bg-white text-sans  text-lg  font-bold rounded"
           onClick={() => closeNav()}
         >
           <Link href="/login">
@@ -68,14 +68,14 @@ const MobileNav = ({ routes, user, userImg = '', username = '', closeNav }) => {
 
       {user && (
         <>
-          <Button>
+          <button className="focus:outline-none py-2 px-6 bg-white text-sans  text-lg  font-bold rounded">
             <a
               className="text-primary cursor-pointer font-poppins font-bold"
               onClick={onSignOut}
             >
               SignOut
             </a>
-          </Button>
+          </button>
         </>
       )}
     </motion.ul>
