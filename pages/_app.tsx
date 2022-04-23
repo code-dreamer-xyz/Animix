@@ -34,8 +34,8 @@ function MyApp({ Component, pageProps }: AppProps) {
         <AnimatePresence exitBeforeEnter>
           <Component {...pageProps} key={router.pathname} />
         </AnimatePresence>
-        <Toaster />
       </Layout>
+      <Toaster />
     </UserContext.Provider>
   )
 }
