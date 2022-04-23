@@ -9,7 +9,7 @@ import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons'
 import { useContext } from 'react'
 import { UserContext } from '../../lib/context'
 import { useState } from 'react'
-import { auth, sign_Out } from '../../lib/firebase'
+import { sign_Out } from '../../lib/firebase'
 
 import { motion } from 'framer-motion'
 import { Divide as Hamburger } from 'hamburger-react'
@@ -17,7 +17,7 @@ import MobileNav from './MobileNav'
 
 const Navbar: React.FC = () => {
   const [open, setOpen] = useState(false)
-  const { user, userProfile } = useContext(UserContext)
+  const { user, username } = useContext(UserContext)
   const [navIsOpen, setNavOpen] = useState(false)
 
   const closeNav = () => setNavOpen(false)
@@ -31,10 +31,10 @@ const Navbar: React.FC = () => {
       path: '/movies',
       page: 'Movies',
     },
-    // {
-    //     path: '/blog',
-    //     page: 'Blog',
-    // },
+    {
+      path: '/blog',
+      page: 'Blog',
+    },
   ]
 
   return (
@@ -50,7 +50,7 @@ const Navbar: React.FC = () => {
             {routes.map(({ path, page }) => (
               <motion.li
                 whileTap={{ scale: 0.9 }}
-                className="text-xl mx-4"
+                className="text-lg mx-4"
                 key={path}
               >
                 <Link href={path}>
@@ -75,9 +75,9 @@ const Navbar: React.FC = () => {
                 onClick={() => setOpen(!open)}
               >
                 <div className="flex space-x-6 items-center">
-                  <Avatar img={userProfile?.photoURL} />
+                  <Avatar img={user?.photoURL} />
                   <p className="text-white font-poppins font-bold">
-                    {userProfile?.userName}
+                    {user?.userName}
                   </p>
                   <FontAwesomeIcon
                     icon={open ? faCaretUp : faCaretDown}
@@ -114,8 +114,8 @@ const Navbar: React.FC = () => {
           <MobileNav
             routes={routes}
             user={user}
-            userImg={userProfile?.photoURL}
-            username={userProfile?.userName}
+            userImg={user?.photoURL}
+            username={user?.userName}
             closeNav={closeNav}
           />
         )}
