@@ -1,6 +1,13 @@
 import { initializeApp, getApps } from 'firebase/app'
 import { getAuth, GoogleAuthProvider, signOut } from 'firebase/auth'
-import { getFirestore } from 'firebase/firestore'
+import {
+  collection,
+  getDocs,
+  getFirestore,
+  limit,
+  query,
+  where,
+} from 'firebase/firestore'
 import { getStorage } from 'firebase/storage'
 import toast from 'react-hot-toast'
 
@@ -41,4 +48,24 @@ export const sign_Out = () => {
     .catch((err) => {
       toast.error('signing out failed')
     })
+}
+
+export async function getUserWithUsername(username) {
+  const userQuery = query(
+    collection(firestore, 'users'),
+    where('username', '==', username),
+    limit(1)
+  )
+  const userDoc = (await getDocs(userQuery)).docs[0]
+  return userDoc
+}
+
+export function postToJSON(doc) {
+  const data = doc.data()
+
+  return {
+    ...data,
+    createdAt: data.createdAt.toMillis(),
+    updatedAt: data.updatedAt.toMillis(),
+  }
 }
