@@ -3,8 +3,8 @@ import {
   doc,
   getDoc,
   getDocs,
+  onSnapshot,
   query,
-  setDoc,
 } from 'firebase/firestore'
 import { useEffect, useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
@@ -13,27 +13,20 @@ import { auth, firestore } from './firebase'
 
 export function useUserData() {
   const [user] = useAuthState(auth)
-  const [userProfile, setUserProfile] = useState(null)
+  // const [userProfile, setUserProfile] = useState(null)
+  const [username, setUsername] = useState(null)
 
   useEffect(() => {
     let unsubscribe
 
     const getUser = async () => {
       if (user) {
-        const docSnap = await getDoc(doc(firestore, 'users', user.uid))
-
-        if (docSnap.exists()) {
-          unsubscribe = setUserProfile(docSnap.data())
-        } else {
-          const newUser = {
-            photoURL: user.photoURL,
-            userName: user.displayName,
-          }
-          setDoc(docSnap, newUser)
-          setUserProfile(newUser)
-        }
+        const docSnap = doc(firestore, 'users', user.uid)
+        unsubscribe = onSnapshot(docSnap, (doc) => {
+          setUsername(doc.data()?.username)
+        })
       } else {
-        setUserProfile(null)
+        setUsername(null)
       }
     }
     getUser()
@@ -41,7 +34,7 @@ export function useUserData() {
     return unsubscribe
   }, [user])
 
-  return { user, userProfile }
+  return { user, username }
 }
 
 export async function getUserMovies(uid) {
