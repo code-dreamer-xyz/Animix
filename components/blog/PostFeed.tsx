@@ -10,7 +10,7 @@ const PostFeed = ({ posts, admin }) => {
 
 const PostItem = ({ post, admin = false }) => {
   return (
-    <div className="max-w-2xl px-8 py-4 mx-auto bg-primaryDark rounded-lg shadow-md ">
+    <div className="max-w-screen-lg px-8 py-4 mx-auto mb-6 bg-primaryDark rounded-lg shadow-md ">
       <div className="flex items-center justify-between">
         <span className="text-sm font-light text-gray-300">Jan 15, 2022</span>
         <span className="text-white">❤️ {post.heartCount} </span>
