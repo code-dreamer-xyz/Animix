@@ -23,16 +23,23 @@ const PostItem = ({ post, admin = false }) => {
         </Link>
         <p className="mt-2 text-gray-50">{post.content}</p>
       </div>
-      <div className="flex items-center justify-between mt-4">
+      <div className="flex items-center justify-between my-4">
         <Link href={`/blog/${post.username}/${post.slug}`}>
           <a className="text-primary hover:underline">Read more ⟶</a>
         </Link>
-        <div className="flex items-center">
+        <div className="flex items-center space-x-3">
           <Link href={`/blog/${post.username}`}>
             <a className="font-bold text-gray-200 cursor-pointer dark:text-gray-200">
               By @{post.username}
             </a>
           </Link>
+          {admin && (
+            <button className="bg-white text-black font-bold px-2.5 py-1.5 rounded">
+              <Link href={`/blog/admin/${post.slug}`}>
+                <a>Edit</a>
+              </Link>
+            </button>
+          )}
         </div>
       </div>
     </div>
