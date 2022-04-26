@@ -69,7 +69,9 @@ const BlogHome = (props) => {
         <PostFeed posts={posts} admin={false} />
 
         {!loading && !postsEnd && (
-          <button onClick={getMorePosts}>Load more</button>
+          <button className="text-white underline" onClick={getMorePosts}>
+            Load more
+          </button>
         )}
 
         {loading && <p className="text-white">loading..</p>}

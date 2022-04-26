@@ -91,7 +91,7 @@ const CreateNewPost = () => {
           onChange={(e) => setTitle(e.target.value)}
           placeholder="Title"
           type="text"
-          className="shadow-sm border text-sm rounded focus:ring-primary focus:border-primary block w-full p-3 bg-primaryDark border-gray-600 placeholder-gray-300 text-white shadow-sm-light"
+          className="shadow-sm border text-sm rounded focus:ring-primary focus:border-primary block w-full p-3 bg-primaryDark border-gray-600 placeholder-gray-300 text-white"
           required
         />
       </div>
