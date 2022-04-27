@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHeart } from '@fortawesome/free-solid-svg-icons'
-import { increment, doc, writeBatch, getDoc } from 'firebase/firestore'
+import { increment, doc, writeBatch } from 'firebase/firestore'
 import { auth, firestore } from '../../lib/firebase'
 import { useDocument } from 'react-firebase-hooks/firestore'
 import toast from 'react-hot-toast'
