@@ -4,13 +4,16 @@ import toast from 'react-hot-toast'
 import { slideUpVariants } from '../../helpers/animation'
 import { auth, googleAuthProvider } from '../../lib/firebase'
 
-const SignInButton = () => {
+const SignInButton = ({ setOpenModal = null }) => {
   const signInWithGoogle = async () => {
     try {
       await signInWithPopup(auth, googleAuthProvider)
       toast.success('login success 🤩')
     } catch (error) {
       toast.error('login failed 🙁')
+    }
+    if (setOpenModal) {
+      setOpenModal(false)
     }
   }
   return (
