@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import WithUsername from '../../../components/WithUsername'
+import ImageUploader from '../../../components/blog/ImageUploader'
 import { firestore, auth } from '../../../lib/firebase'
 import { doc, serverTimestamp, updateDoc } from 'firebase/firestore'
 import { useRouter } from 'next/router'
@@ -57,7 +58,7 @@ function PostManager() {
               >
                 {preview ? 'Edit' : 'Preview'}
               </button>
-              <button className="bg-indigo-600 text-white px-2 py-2 w-full mb-4 rounded">
+              <button className="bg-secondary text-white px-2 py-2 w-full mb-4 rounded">
                 <Link href={`/blog/${post.username}/${post.slug}`}>
                   <a>Live view</a>
                 </Link>
@@ -102,6 +103,7 @@ function PostForm({ defaultValues, postRef, preview, postContent }) {
         </div>
       )}
       <div>
+        <ImageUploader />
         <label
           htmlFor="content"
           className="block mb-2 text-sm font-medium text-gray-400"
