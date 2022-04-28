@@ -9,11 +9,12 @@ import {
 
 import UserProfile from '../../../components/blog/UserProfile'
 import HeartButton from '../../../components/blog/HeartButton'
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useState } from 'react'
 import { UserContext } from '../../../lib/context'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHeart } from '@fortawesome/free-solid-svg-icons'
 import LoginModal from '../../../components/ui/LoginModal'
+import Link from 'next/link'
 
 export async function getStaticProps({ params }) {
   const { username, slug } = params
@@ -73,8 +74,7 @@ const PostPage = (props) => {
               ) : (
                 <button onClick={() => setOpenModal(!openModal)}>
                   <FontAwesomeIcon
-                    className="text-xl 
-               text-white"
+                    className="text-xl text-white"
                     icon={faHeart}
                   />
                 </button>
@@ -88,7 +88,9 @@ const PostPage = (props) => {
           <div className="col-span-2 bg-secondaryDark rounded p-4 border border-gray-800">
             <UserProfile user={props.userData} />
             <button className="w-full text-white py-2 rounded mt-4 bg-secondary">
-              view profile
+              <Link href={`/blog/${post.username}`}>
+                <a>view profile</a>
+              </Link>
             </button>
           </div>
         </div>
