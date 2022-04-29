@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { HeartOutlined } from '@ant-design/icons'
 
 const PostFeed = ({ posts, admin }) => {
   return posts
@@ -13,7 +14,9 @@ const PostItem = ({ post, admin = false }) => {
     <div className="max-w-screen-lg px-8 py-4 mx-auto mb-6 bg-primaryDark rounded-lg shadow-md ">
       <div className="flex items-center justify-between">
         <span className="text-sm font-light text-gray-300">Jan 15, 2022</span>
-        <span className="text-white">❤️ {post.heartCount} </span>
+        <p className="text-gray-400 flex items-center space-x-1">
+          <HeartOutlined /> <span>{post.heartCount}</span>
+        </p>
       </div>
       <div className="mt-2">
         <Link href={`/blog/${post.username}/${post.slug}`}>
@@ -29,7 +32,7 @@ const PostItem = ({ post, admin = false }) => {
         </Link>
         <div className="flex items-center space-x-3">
           <Link href={`/blog/${post.username}`}>
-            <a className="font-bold text-gray-200 cursor-pointer dark:text-gray-200">
+            <a className=" font-bold text-gray-200 cursor-pointer hover:text-secondary">
               By @{post.username}
             </a>
           </Link>

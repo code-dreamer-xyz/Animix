@@ -9,7 +9,7 @@ export default function PostContent({ post }) {
 
   return (
     <div>
-      {/* <span className="text-gray-300">{createdAt}</span> */}
+      <span className="text-gray-300">{createdAt}</span>
       <h1 className="font-bold font-poppins text-2xl text-white capitalize mb-4">
         {post?.title}
       </h1>
