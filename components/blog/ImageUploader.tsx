@@ -55,26 +55,6 @@ const ImageUploader = () => {
       {!uploading && (
         <>
           <div>
-            {/* <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-600 border-dashed rounded-md">
-              <div className="space-y-1 text-center">
-                <div className="flex text-sm items-center text-gray-600">
-                  <label
-                    htmlFor="file-upload"
-                    className="relative cursor-pointer bg-white rounded-md font-medium text-secondary p-2 focus-within:outline-none "
-                  >
-                    <span>Choose a file</span>
-                    <input
-                      type="file"
-                      className="sr-only"
-                      onChange={uploadFile}
-                      accept="image/x-png,image/gif,image/jpeg"
-                    />
-                  </label>
-                  <p className="pl-3">or drag and drop</p>
-                </div>
-                <p className="text-xs text-gray-500">PNG, JPG, GIF</p>
-              </div>
-            </div> */}
             <label className="block mb-4  text-sm font-medium text-gray-400">
               Upload image
             </label>
@@ -92,7 +72,6 @@ const ImageUploader = () => {
           <span className="text-green-500">
             image uploaded successfylly copy link in your markdown
           </span>
-          {/* <input type="text"  /> */}
 
           <div className="flex items-center">
             <input

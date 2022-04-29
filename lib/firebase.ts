@@ -27,9 +27,7 @@ if (!getApps().length) {
 
 export const auth = getAuth(app)
 export const googleAuthProvider = new GoogleAuthProvider()
-
 export const firestore = getFirestore(app)
-
 export const storage = getStorage(app)
 
 export const commentToJSON = (doc) => {
