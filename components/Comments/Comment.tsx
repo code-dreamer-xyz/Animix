@@ -34,7 +34,7 @@ const Comment = ({ comment }) => {
           </span>
         </div>
         <p className="text-lg text-white font-sans">{comment?.content}</p>
-        {user && comment && user?.uid === comment?.user_id && (
+        {user && comment && user?.uid === comment?.uid && (
           <button
             onClick={onDelClick}
             className="hover:text-primary focus:outline-none absolute text-md text-gray-100 top-0 right-0"
