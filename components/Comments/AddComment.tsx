@@ -8,7 +8,7 @@ import Avatar from '../ui/Avatar'
 import Button from '../ui/Button'
 
 const AddComment = ({ movie_id }) => {
-  const { user, userProfile } = useContext(UserContext)
+  const { user } = useContext(UserContext)
   const [content, setContent] = useState('')
 
   const onSubmit = async (e) => {
@@ -18,11 +18,11 @@ const AddComment = ({ movie_id }) => {
     const commentRef = doc(collection(firestore, 'users', uid, 'comments'))
 
     const data = {
-      id: commentRef,
+      id: commentRef.id,
       content,
       movie_id,
-      user_id: uid,
-      user_img: userProfile.photoURL,
+      uid,
+      user_img: user?.photoURL,
       createdAt: serverTimestamp(),
     }
 
@@ -31,7 +31,8 @@ const AddComment = ({ movie_id }) => {
     try {
       await setDoc(commentRef, data)
     } catch (error) {
-      toast.error(error.message)
+      toast.error('failed to add comment')
+      // console.log(error.message)
     }
   }
 
