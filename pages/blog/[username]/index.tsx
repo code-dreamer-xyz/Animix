@@ -13,6 +13,7 @@ import {
   postToJSON,
 } from '../../../lib/firebase'
 import { query as firebaseQuery } from 'firebase/firestore'
+import Loader from '../../../components/ui/Loader'
 
 export async function getServerSideProps({ query }) {
   const { username } = query
@@ -41,6 +42,7 @@ export async function getServerSideProps({ query }) {
 const UserProfilePage = ({ user, posts }) => {
   return (
     <section className="py-8 min-h-full">
+      {(!user || !posts) && <Loader loading />}
       <UserProfile user={user} />
       <div className="max-w-screen-lg mx-auto px-1">
         <h2 className="text-white font-sans font-bold text-lg mb-6">
