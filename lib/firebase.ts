@@ -59,11 +59,11 @@ export async function getUserWithUsername(username) {
 }
 
 export function postToJSON(doc) {
-  const data = doc.data()
+  const data = doc?.data()
 
   return {
     ...data,
-    createdAt: data.createdAt.toMillis(),
-    updatedAt: data.updatedAt.toMillis(),
+    createdAt: data?.createdAt.toMillis(),
+    updatedAt: data?.updatedAt.toMillis(),
   }
 }
