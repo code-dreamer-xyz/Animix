@@ -8,7 +8,7 @@ import {
 } from '../helpers/animation'
 import { motion } from 'framer-motion'
 // import { useRouter } from 'next/router'
-import SignInButton from '../components/auth/SigninButton'
+import SignInButton from '../components/auth/SignInButton'
 import UsernameForm from '../components/auth/UsernameForm'
 
 const Login = () => {
