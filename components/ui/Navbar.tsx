@@ -38,7 +38,7 @@ const Navbar: React.FC = () => {
   ]
 
   return (
-    <header className="relative z-50  w-full 2xl:px-0 px-2 py-1">
+    <header className="relative z-50 w-full 2xl:px-0 px-2 py-2">
       <nav className="max-w-screen-xl mx-auto flex justify-between items-center">
         <Link href="/">
           <a className="font-syne text-white text-xl">
@@ -46,13 +46,9 @@ const Navbar: React.FC = () => {
           </a>
         </Link>
         <div className="flex items-center space-x-4">
-          <ul className=" justify-between md:flex hidden">
+          <ul className="justify-between md:flex hidden">
             {routes.map(({ path, page }) => (
-              <motion.li
-                whileTap={{ scale: 0.9 }}
-                className="text-lg mx-4"
-                key={path}
-              >
+              <motion.li whileTap={{ scale: 0.9 }} className=" mx-4" key={path}>
                 <Link href={path}>
                   <a className="hover:text-primary cursor-pointer font-poppins font-bold text-white">
                     {page}
@@ -74,29 +70,35 @@ const Navbar: React.FC = () => {
                 className="relative cursor-pointer"
                 onClick={() => setOpen(!open)}
               >
-                <div className="flex space-x-6 items-center">
+                <div className="flex space-x-2 items-center">
                   <Avatar img={user?.photoURL} />
-                  <p className="text-white font-poppins font-bold">
-                    {user?.userName}
+                  <p className="text-white hover:text-primary font-poppins font-bold">
+                    {username}
                   </p>
                   <FontAwesomeIcon
                     icon={open ? faCaretUp : faCaretDown}
-                    className="text-white"
+                    className={open ? 'text-primary' : 'text-white'}
                   />
                 </div>
 
                 <div
-                  className={`absolute -bottom-30 bg-white w-full left-0  flex-col space-y-4 p-2 ${
+                  className={`absolute top-full z-50 rounded bg-primaryDark w-full text-white left-0  flex-col space-y-4 ${
                     open ? 'flex' : 'hidden'
                   }`}
                 >
-                  <button>
-                    <Link href="/dashboard">
-                      <a>My Movies</a>
+                  <button className="hover:bg-gray-600 p-2">
+                    <Link href="/blog/admin">
+                      <a>Manage Post</a>
                     </Link>
                   </button>
-
-                  <button onClick={sign_Out}>Log Out</button>
+                  <button className="hover:bg-gray-600  p-2">
+                    <Link href={`/blog/${username}`}>
+                      <a>Profile</a>
+                    </Link>
+                  </button>
+                  <button className="hover:bg-gray-600  p-2" onClick={sign_Out}>
+                    Log Out
+                  </button>
                 </div>
               </div>
             )}
