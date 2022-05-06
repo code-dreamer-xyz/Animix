@@ -1,6 +1,6 @@
 import { faTimes } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import SignInButton from '../auth/SigninButton'
+import SignInButton from '../auth/SignInButton'
 
 const LoginModal = ({ setOpenModal }) => {
   return (
