@@ -8,8 +8,10 @@ import {
   Timestamp,
   startAfter,
 } from 'firebase/firestore'
+import { motion } from 'framer-motion'
 import { useState } from 'react'
 import PostFeed from '../../components/blog/PostFeed'
+import { staggerChildren } from '../../helpers/animation'
 import { firestore, postToJSON } from '../../lib/firebase'
 
 // Max post to query per page
@@ -39,7 +41,7 @@ const BlogHome = (props) => {
     const lastPost = posts[posts.length - 1]
 
     const lastPostCursor =
-      typeof lastPost.createdAt === 'number'
+      typeof lastPost?.createdAt === 'number'
         ? Timestamp.fromMillis(lastPost.createdAt)
         : lastPost.createdAt
 
@@ -55,10 +57,10 @@ const BlogHome = (props) => {
       doc.data()
     )
 
-    setPosts(posts.concat(newPosts))
+    setPosts(posts?.concat(newPosts))
     setLoading(false)
 
-    if (newPosts.length < LIMIT) {
+    if (newPosts?.length < LIMIT) {
       setPostsEnd(true)
     }
   }
@@ -66,8 +68,14 @@ const BlogHome = (props) => {
   return (
     <section className="py-6">
       <div className="max-w-screen-lg mx-auto px-1">
-        <PostFeed posts={posts} admin={false} />
-
+        <motion.div
+          initial="exit"
+          animate="enter"
+          exit="exit"
+          variants={staggerChildren}
+        >
+          <PostFeed posts={posts} admin={false} />
+        </motion.div>
         {!loading && !postsEnd && (
           <button className="text-white underline" onClick={getMorePosts}>
             Load more

@@ -1,5 +1,7 @@
 import Link from 'next/link'
 import { HeartOutlined } from '@ant-design/icons'
+import { slideUpVariants } from '../../helpers/animation'
+import { motion } from 'framer-motion'
 
 const PostFeed = ({ posts, admin }) => {
   return posts
@@ -11,7 +13,10 @@ const PostFeed = ({ posts, admin }) => {
 
 const PostItem = ({ post, admin = false }) => {
   return (
-    <div className="max-w-screen-lg px-8 py-4 mx-auto mb-6 bg-primaryDark rounded-lg shadow-md ">
+    <motion.div
+      variants={slideUpVariants}
+      className="max-w-screen-lg px-8 py-4 mx-auto mb-6 bg-primaryDark rounded-lg shadow-md "
+    >
       <div className="flex items-center justify-between">
         <span className="text-sm font-light text-gray-300">Jan 15, 2022</span>
         <p className="text-gray-400 flex items-center space-x-1">
@@ -45,7 +50,7 @@ const PostItem = ({ post, admin = false }) => {
           )}
         </div>
       </div>
-    </div>
+    </motion.div>
   )
 }
 
