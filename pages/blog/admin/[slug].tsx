@@ -2,7 +2,7 @@ import { useState } from 'react'
 import WithUsername from '../../../components/WithUsername'
 import ImageUploader from '../../../components/blog/ImageUploader'
 import { firestore, auth } from '../../../lib/firebase'
-import { doc, serverTimestamp, updateDoc } from 'firebase/firestore'
+import { deleteDoc, doc, serverTimestamp, updateDoc } from 'firebase/firestore'
 import { useRouter } from 'next/router'
 import { useDocumentDataOnce } from 'react-firebase-hooks/firestore'
 import { useForm } from 'react-hook-form'
@@ -63,9 +63,7 @@ function PostManager() {
                   <a>Live view</a>
                 </Link>
               </button>
-              <button className="bg-red-600 text-white px-2 py-2 w-full rounded">
-                Delete
-              </button>
+              <DeletePostButton postRef={postRef} />
             </div>
           </div>
         </div>
@@ -140,6 +138,32 @@ function PostForm({ defaultValues, postRef, preview, postContent }) {
         </button>
       </div>
     </form>
+  )
+}
+
+function DeletePostButton({ postRef }) {
+  const router = useRouter()
+
+  const deletePost = async () => {
+    const doIt = confirm('are you sure!')
+    if (doIt) {
+      try {
+        await deleteDoc(postRef)
+        router.push('/admin')
+        toast('post deleted ', { icon: '🗑️' })
+      } catch (err) {
+        toast.error('failed to delete post')
+      }
+    }
+  }
+
+  return (
+    <button
+      className="bg-red-600 text-white px-2 py-2 w-full rounded"
+      onClick={deletePost}
+    >
+      Delete
+    </button>
   )
 }
 
