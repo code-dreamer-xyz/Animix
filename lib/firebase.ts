@@ -1,44 +1,69 @@
-import firebase from 'firebase/app'
-import 'firebase/auth'
-import 'firebase/firestore'
-import 'firebase/storage'
+import { initializeApp, getApps } from 'firebase/app'
+import { getAuth, GoogleAuthProvider, signOut } from 'firebase/auth'
+import {
+  collection,
+  getDocs,
+  getFirestore,
+  limit,
+  query,
+  where,
+} from 'firebase/firestore'
+import { getStorage } from 'firebase/storage'
 import toast from 'react-hot-toast'
 
 const firebaseConfig = {
-    apiKey: `${process.env.NEXT_PUBLIC_FIREBASE_API_KEY}`,
-    authDomain: `${process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN}`,
-    projectId: `${process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID}`,
-    storageBucket: `${process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET}`,
-    messagingSenderId: `${process.env.NEXT_PUBLIC_FIREBASE_MSG_SENDER_ID}`,
-    appId: `${process.env.NEXT_PUBLIC_FIREBASE_APP_ID}`,
+  apiKey: 'AIzaSyBpoXymNPxZn-Fzs9UO2yyf-eKC5ZXaUKw',
+  authDomain: 'orcanime-a918a.firebaseapp.com',
+  projectId: 'orcanime-a918a',
+  storageBucket: 'orcanime-a918a.appspot.com',
+  messagingSenderId: '445462942565',
+  appId: '1:445462942565:web:63489cf44a68b38beb478c',
 }
 
-if (!firebase.apps.length) {
-    firebase.initializeApp(firebaseConfig)
+let app
+if (!getApps().length) {
+  app = initializeApp(firebaseConfig)
 }
 
-export const auth = firebase.auth()
-export const googleAuthProvider = new firebase.auth.GoogleAuthProvider()
-
-export const firestore = firebase.firestore()
-
-export const storage = firebase.storage()
+export const auth = getAuth(app)
+export const googleAuthProvider = new GoogleAuthProvider()
+export const firestore = getFirestore(app)
+export const storage = getStorage(app)
 
 export const commentToJSON = (doc) => {
-    const data = doc.data()
-    return {
-        ...data,
-        createdAt: data?.createdAt.toMillis() || 0,
-    }
+  const data = doc.data()
+  return {
+    ...data,
+    createdAt: data?.createdAt.toMillis() || 0,
+  }
 }
 
-export const signOut = () => {
-    try {
-        auth.signOut()
-        toast.success('successfully signed out')
-    } catch (error) {
-        toast.error('signing out failed')
-    }
+export const sign_Out = () => {
+  signOut(auth)
+    .then(() => {
+      toast.success('successfully signed out')
+    })
+    .catch((err) => {
+      toast.error('signing out failed')
+    })
 }
 
-export const serverTimestamp = firebase.firestore.FieldValue.serverTimestamp
+export async function getUserWithUsername(username) {
+  const userQuery = query(
+    collection(firestore, 'users'),
+    where('username', '==', username),
+    limit(1)
+  )
+  const userDoc = (await getDocs(userQuery)).docs[0]
+  return userDoc
+}
+
+export function postToJSON(doc) {
+  const data = doc?.data()
+
+  return {
+    ...data,
+    createdAt: data?.createdAt.toMillis(),
+    updatedAt: data?.updatedAt.toMillis(),
+  }
+}
