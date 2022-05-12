@@ -1,17 +1,17 @@
-import Button from '../components/ui/Button'
-import CommentList from '../components/Comments/CommentList'
+import Button from '../../components/ui/Button'
+import CommentList from '../../components/Comments/CommentList'
 import { GetStaticPaths, GetStaticProps } from 'next'
-import { firestore } from '../lib/firebase'
+import { firestore } from '../../lib/firebase'
 import { useCollection } from 'react-firebase-hooks/firestore'
 import {
   slideUpVariants,
   staggerChildren,
   slideToLeftVariants,
-} from '../helpers/animation'
+} from '../../helpers/animation'
 import { motion } from 'framer-motion'
 import toast from 'react-hot-toast'
 import Image from 'next/image'
-import NotFound from './404'
+import NotFound from '../404'
 import {
   collection,
   collectionGroup,
@@ -131,14 +131,20 @@ const MovieDetail = ({ movie }) => {
               </motion.div>
             </div>
 
-            <h2 className="font-syne text-xl text-white mb-6">Full Movie:</h2>
+            <CommentList
+              comments={comments}
+              loading={loading}
+              error={error}
+              movie_id={movie.id}
+            />
+
+            <h2 className="font-syne text-xl text-white my-6">Full Movie:</h2>
             <div
               id="movie-player"
               className="max-w-screen-xl p-1 bg-primary drop-shadow-md rounded mx-auto mb-6"
             >
               <ReactPlayer width={'100%'} height={600} url={movie.trailer} />
             </div>
-            <CommentList comments={comments} movie_id={movie.id} />
           </div>
         </motion.section>
       )}

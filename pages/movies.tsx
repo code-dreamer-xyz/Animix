@@ -50,7 +50,7 @@ const Movies = ({ movies }) => {
             >
               {moviesCollection.map((movie) => (
                 <div key={movie.id}>
-                  <Link href={`/${movie.id}`}>
+                  <Link href={`/movie/${movie.id}`}>
                     <a>
                       <MovieCard
                         img={movie.img}
