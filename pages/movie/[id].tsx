@@ -1,17 +1,17 @@
-import Button from '../components/ui/Button'
-import CommentList from '../components/Comments/CommentList'
+import Button from '../../components/ui/Button'
+import CommentList from '../../components/Comments/CommentList'
 import { GetStaticPaths, GetStaticProps } from 'next'
-import { firestore } from '../lib/firebase'
+import { firestore } from '../../lib/firebase'
 import { useCollection } from 'react-firebase-hooks/firestore'
 import {
   slideUpVariants,
   staggerChildren,
   slideToLeftVariants,
-} from '../helpers/animation'
+} from '../../helpers/animation'
 import { motion } from 'framer-motion'
 import toast from 'react-hot-toast'
 import Image from 'next/image'
-import NotFound from './404'
+import NotFound from '../404'
 import {
   collection,
   collectionGroup,
