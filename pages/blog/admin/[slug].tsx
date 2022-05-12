@@ -149,7 +149,7 @@ function DeletePostButton({ postRef }) {
     if (doIt) {
       try {
         await deleteDoc(postRef)
-        router.push('/admin')
+        router.push('/blog/admin')
         toast('post deleted ', { icon: '🗑️' })
       } catch (err) {
         toast.error('failed to delete post')
