@@ -131,14 +131,20 @@ const MovieDetail = ({ movie }) => {
               </motion.div>
             </div>
 
-            <h2 className="font-syne text-xl text-white mb-6">Full Movie:</h2>
+            <CommentList
+              comments={comments}
+              loading={loading}
+              error={error}
+              movie_id={movie.id}
+            />
+
+            <h2 className="font-syne text-xl text-white my-6">Full Movie:</h2>
             <div
               id="movie-player"
               className="max-w-screen-xl p-1 bg-primary drop-shadow-md rounded mx-auto mb-6"
             >
               <ReactPlayer width={'100%'} height={600} url={movie.trailer} />
             </div>
-            <CommentList comments={comments} movie_id={movie.id} />
           </div>
         </motion.section>
       )}
